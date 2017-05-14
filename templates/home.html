@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>GuestPet</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900|Crete+Round" rel="stylesheet">
+    <link href="../style/main.css" rel ="stylesheet" type="text/css"/>
+    <link href="../style/home.css" rel ="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../script/home.js"></script>
+  </head>
+  <body>
+
+    <div class="header-container">
+      <div class="header-logo-container">
+        <div class="header-logo-image" src="../images/guestPetLogo"></div>
+        <a class="header-logo-title" href="index.html">GuestPet</a>
+      </div>
+
+      <div class="header-links-container">
+        <a class="header-link" href="home.html">Início</a>
+        <a class="header-link" href="profile.html">Perfil</a>
+        <button class="header-link">Mensagens</button>
+        <button class="header-link">Sair</button>
+      </div>
+    </div>
+    <div class="header-pseudo-shadow"></div>
+
+    <div align="center" id="user-modes-container_id" class="user-modes-container">
+      <button onclick="changeMode('owner')" class="user-mode-selected">owner</button>
+      <button onclick="changeMode('host')" class="user-mode">host</button>
+    </div>
+
+    <div id="content-body_id" class="content-body">
+      <h1 id="user-mode-title_id">Owner</h1>
+      <h2 id="user-content_id">Aqui tem coisas de owner</h2>
+    </div>
+
+  </body>
+</html>
