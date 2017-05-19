@@ -1,0 +1,58 @@
+.login-container {
+  font-family: 'Raleway', sans-serif;
+  width: 300px;
+  height: 260px;
+}
+
+.login-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.login-header-close {
+  text-decoration: none;
+  font-weight: 300;
+  margin-left: 10px;
+  font-size: 18px;
+  color: #ED892D;
+  position: absolute;
+}
+
+.login-header-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.login-field {
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #bbb;
+  text-align: center;
+  border-radius: none;
+  box-shadow: none;
+  padding: 5px;
+  margin: 5px;
+  width: 95%;
+}
+
+.login-submit {
+  font-family: 'Raleway', sans-serif;
+  font-size: 18px;
+  margin: 14px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  color: #ED892D;
+  cursor: pointer;
+}
+
+.login-might-register-button {
+  color: #ED892D;
+  font-size: 14px;
+  text-decoration: none;
+  margin-bottom: 20px;
+}
