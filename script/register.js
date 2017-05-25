@@ -73,11 +73,11 @@ function registerUser() {
 		
 		var register = new Usuario($("#nameField").val(), $("#emailField").val(), $("#passwordField").val());
 	
-	
-	
 		var blob = new Blob([$("#nameField").val(), $("#passwordField").val()], {type: "text/plain;charset=utf-8"});
 		saveAs(blob, "registro.txt");
-		}
+		
+		window.location.replace("../templates/home.html");
+	}
 }
 
 
