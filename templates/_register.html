@@ -1,9 +1,10 @@
 <html>
   <head>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>GuestPet</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900|Crete+Round" rel="stylesheet">
-    <link href="style/login-register.css" rel ="stylesheet" type="text/css"/>
+    <link href="../style/login-register.css" rel ="stylesheet" type="text/css"/>
   </head>
 
   <div align="center" class="login-container">
@@ -15,13 +16,17 @@
       </div>
     </div>
 
-    <form action="/action_page.php">
-      <input class="login-field" type="text" name="name" value="nome"><br>
-      <input class="login-field" type="text" name="email" value="email"><br>
-      <input class="login-field" type="text" name="password" value="senha"><br>
-      <input class="login-field" type="text" name="confirm-password" value="confirme senha"><br>
-      <input class="login-submit" type="submit" value="Cadastrar"><br>
+    <form action="javascript:registerUser()">
+      <input class="login-field" type="text" id="nameField" value="nome"> <p style="display:none" id="nameError""></p>
+<br>
+      <input class="login-field" type="text" id="emailField" value="email"><p style="display:none" id="emailError""></p><br>
+      <input class="login-field" type="text" id="passwordField" value="senha"><p style="display:none" id="passwordError""></p><br>
+      <input class="login-field" type="text" id="confirmPasswordField" value="confirme senha"><br>
+      <input class="login-submit" type="submit" id ="registerButton" value="Cadastrar"><br>
     </form>
   </div>
+	
+	<script src = "FileSaver.js"></script>	<!-- isso a gente vai tirar quando der pra salvar no bd -->
+	<script src = "register.js"></script>
 
 </hmtl>
