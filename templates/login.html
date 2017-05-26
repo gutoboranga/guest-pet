@@ -1,9 +1,17 @@
 <html>
   <head>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>GuestPet</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900|Crete+Round" rel="stylesheet">
     <link href="../style/login-register.css" rel ="stylesheet" type="text/css"/>
+		
+		<script type="text/javascript" src="../scripts/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="../scripts/event.js"></script>
+    <script type="text/javascript" src="../scripts/model.js"></script>
+    <script type="text/javascript" src="../scripts/login.js"></script>
+    <script type="text/javascript" src="../scripts/FileSaver.js"></script>
+
   </head>
 
   <div align="center" class="login-container">
@@ -15,10 +23,10 @@
       </div>
     </div>
 
-    <form action="/action_page.php">
-      <input class="login-field" type="text" name="email" value="email"><br>
-      <input class="login-field" type="password" name="password" value="senha"><br>
-      <input class="login-submit" type="submit" value="Entrar"><br>
+    <form action="javascript:void(0)">
+      <input class="login-field" id="loginField" type="text" name="user" value="usuario"><p style="display:none" id="userError"></p><br><br>
+      <input class="login-field" id="passwordField" type="password" name="password" value="senha"><p style="display:none" id="passwordError"></p><br>
+      <input class="login-submit" id="loginButton" type="submit" value="Entrar"><br>
     </form>
 
     <a class="login-might-register-button" href="index.html">Não possui cadastro?</a>

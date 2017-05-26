@@ -1,7 +1,7 @@
 function Event(sender) {
     this.sender = sender;
     this.listeners = [];
-    console.log("criando event");
+    //console.log("criando event");
 }
 
 Event.prototype = {

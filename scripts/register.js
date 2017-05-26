@@ -48,7 +48,7 @@ function RegisterController(view) {
     this.view.closeButtonClicked.attach(function () {
         _this.goBack();
     });
-    console.log("deu attach no register");
+    //console.log("deu attach no register");
 }
 
 RegisterController.prototype = {
@@ -117,7 +117,7 @@ RegisterController.prototype = {
 
   registerUser: function () {
   	if (this.checkName() && this.checkEmail() && this.checkPasswordLength() && this.checkPasswordConsistency()) {
-      console.log("input ok");
+      //////console.log("input ok");
       
       var name = this.view.elements.nameField.val();
       var email = this.view.elements.emailField.val();
@@ -141,7 +141,7 @@ RegisterController.prototype = {
   		saveAs(blob, "registro.txt");
   		window.location.replace("../templates/home.html");
     } else {
-      console.log("input ruim");
+      //console.log("input ruim");
     }
   },
 

@@ -1,7 +1,7 @@
 var current_mode = "owner";
 
 function changeMode(mode) {
-  console.log(mode);
+  //console.log(mode);
   current_mode = mode;
   changeSelectedModeHTML();
   changeContent();
