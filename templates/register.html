@@ -5,6 +5,12 @@
     <title>GuestPet</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900|Crete+Round" rel="stylesheet">
     <link href="../style/login-register.css" rel ="stylesheet" type="text/css"/>
+    
+    <script type="text/javascript" src="../scripts/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="../scripts/event.js"></script>
+    <script type="text/javascript" src="../scripts/model.js"></script>
+    <script type="text/javascript" src="../scripts/register.js"></script>
+    <script type="text/javascript" src="../scripts/FileSaver.js"></script>
   </head>
 
   <div align="center" class="login-container">
@@ -16,17 +22,17 @@
       </div>
     </div>
 
-    <form action="javascript:registerUser()">
-      <input class="login-field" type="text" id="nameField" value="nome"> <p style="display:none" id="nameError""></p>
-<br>
-      <input class="login-field" type="text" id="emailField" value="email"><p style="display:none" id="emailError""></p><br>
-      <input class="login-field" type="text" id="passwordField" value="senha"><p style="display:none" id="passwordError""></p><br>
+    <form action="javascript:void(0)">
+      <input class="login-field" type="text" id="nameField" value="nome"> <p style="display:none" id="nameError"></p><br>
+      <input class="login-field" type="text" id="emailField" value="email"><p style="display:none" id="emailError"></p><br>
+      <input class="login-field" type="text" id="passwordField" value="senha"><p style="display:none" id="passwordError"></p><br>
       <input class="login-field" type="text" id="confirmPasswordField" value="confirme senha"><br>
       <input class="login-submit" type="submit" id ="registerButton" value="Cadastrar"><br>
     </form>
   </div>
 	
-	<script src = "../script/FileSaver.js"></script>	<!-- isso a gente vai tirar quando der pra salvar no bd -->
-	<script src = "../script/register.js"></script>
+	<!-- <script src = "../script/FileSaver.js"></script> -->
+  	<!-- isso a gente vai tirar quando der pra salvar no bd -->
+	<!-- <script src = "../script/register.js"></script> -->
 
 </hmtl>
