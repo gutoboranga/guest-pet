@@ -23,7 +23,7 @@ function HomeView(elements) {
 
 HomeView.prototype = {
   setContent: function (view) {
-    this.elements.contentBody.html(view.show());
+    view.show(this.elements.contentBody);    
   }
 };
 
@@ -55,13 +55,10 @@ HomeController.prototype = {
   
   switchUser: function (mode) {
     if (mode == OWNER) {
-      console.log("Onwer mode");
       this.view.setContent(this.ownerController.view);
     } else {
-      console.log("Host mode");
       this.view.setContent(this.hostController.view);
     }
-    
   }
 };
 
