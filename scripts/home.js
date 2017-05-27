@@ -36,7 +36,6 @@ function HomeController(user, view, ownerController, hostController) {
     var _this = this;
     
     _this.view.logoutButtonClicked.attach(function (sender, args) {
-        console.log("will logout");
         _this.logout();
     });
     this.view.ownerButtonClicked.attach(function (sender, args) {

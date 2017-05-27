@@ -7,16 +7,15 @@ function LoginView(elements) {
     var _this = this;
 
     this.loginButtonClicked = new Event(this);
-		this.registerScreenButtonClicked = new Event(this);
-
+		this.registerButtonClicked = new Event(this);
 
     // attach listeners to HTML controls
     this.elements.loginButton.click(function (e) {
         _this.loginButtonClicked.notify();
     });
-    //this.elements.registerScreenButton.click(function () {
-      //  _this.registerScreenButtonClicked.notify();
-    //});
+    this.elements.registerButton.click(function () {
+       _this.registerButtonClicked.notify();
+    });
 }
 
 LoginView.prototype = {
@@ -46,7 +45,7 @@ function LoginController(view) {
         _this.login();
     });
 
-    this.view.registerScreenButtonClicked.attach(function () {
+    this.view.registerButtonClicked.attach(function () {
         _this.goToRegisterScreen();
     });
     //console.log("deu attach no register");
@@ -67,9 +66,9 @@ LoginController.prototype = {
 		}
 		
 		if (found == 0) { // nao achou
-				this.view.setText(this.view.elements.userError, "Usuário não cadastrado");
-				this.view.setVisible(this.view.elements.userError, true);
-				this.view.setVisible(this.view.elements.passwordError, false);
+			this.view.setText(this.view.elements.userError, "Usuário não cadastrado");
+			this.view.setVisible(this.view.elements.userError, true);
+			this.view.setVisible(this.view.elements.passwordError, false);
 		}
 		
 		else {	// achou
@@ -103,6 +102,7 @@ $(function () {
       'passwordField' : $('#passwordField'),
 			'passwordError' : $('#passwordError'),
       'loginButton' : $('#loginButton'),
+      'registerButton' : $('#registerButton')
     });
     var controller = new LoginController(view);
 });
