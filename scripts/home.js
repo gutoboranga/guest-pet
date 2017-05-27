@@ -3,7 +3,7 @@ const HOST = 1;
 
 function HomeView(elements) {
     this.elements = elements;
-    
+
     this.logoutButtonClicked = new Event(this);
     this.ownerButtonClicked = new Event(this);
     this.hostButtonClicked = new Event(this);
