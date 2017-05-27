@@ -27,6 +27,7 @@ h2 {
   margin: 20px;
   border: none;
   background: none;
+  outline: none;
 }
 
 .user-mode-selected {

@@ -46,6 +46,7 @@
   font-weight: 500;
   background: none;
   border: none;
+  outline: none;
   color: #ED892D;
   cursor: pointer;
 }
@@ -55,4 +56,5 @@
   font-size: 14px;
   text-decoration: none;
   margin-bottom: 20px;
+  cursor: pointer;
 }

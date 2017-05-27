@@ -5,7 +5,13 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900|Crete+Round" rel="stylesheet">
     <link href="../style/main.css" rel ="stylesheet" type="text/css"/>
     <link href="../style/home.css" rel ="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="../script/home.js"></script>
+    
+    <script type="text/javascript" src="../scripts/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="../scripts/event.js"></script>
+    <script type="text/javascript" src="../scripts/model.js"></script>
+    <script type="text/javascript" src="../scripts/owner.js"></script>
+    <script type="text/javascript" src="../scripts/host.js"></script>
+    <script type="text/javascript" src="../scripts/home.js"></script>
   </head>
   <body>
 
@@ -19,19 +25,19 @@
         <a class="header-link" href="home.html">Início</a>
         <a class="header-link" href="profile.html">Perfil</a>
         <button class="header-link">Mensagens</button>
-        <button class="header-link">Sair</button>
+        <button id="logoutButton" class="header-link">Sair</button>
       </div>
     </div>
     <div class="header-pseudo-shadow"></div>
 
-    <div align="center" id="user-modes-container_id" class="user-modes-container">
-      <button onclick="changeMode('owner')" class="user-mode-selected">owner</button>
-      <button onclick="changeMode('host')" class="user-mode">host</button>
+    <div align="center" id="swicth-user-mode-container" class="user-modes-container">
+      <button id="ownerButton" class="user-mode">owner</button>
+      <button id="hostButton" class="user-mode">host</button>
     </div>
 
-    <div id="content-body_id" class="content-body">
-      <h1 id="user-mode-title_id">Owner</h1>
-      <h2 id="user-content_id">Aqui tem coisas de owner</h2>
+    <div id="contentBody" class="content-body">
+      <!-- O QUE ESTÁ AQUI DENTRO DE CONTENT BODY NO FUTURO VAI SER -->
+      <!-- SUBSTITUÍDO POR UMA OWNER VIEW OU UMA HOST VIEW -->
     </div>
 
   </body>
