@@ -22,8 +22,13 @@ function HomeView(elements) {
 }
 
 HomeView.prototype = {
-  setContent: function (view) {
-    view.show(this.elements.contentBody);
+  setOptionsClass: function (selected, unselected) {
+    selected.attr("class", "user-mode-selected");
+    unselected.attr("class", "user-mode");
+  },
+  
+  setContent: function (container) {
+    container.show(this.elements.contentBody);
   }
 };
 
@@ -49,6 +54,7 @@ function HomeController(user, view, ownerController, hostController) {
     // por enquanto mostra owner direto
     this.currentMode = OWNER;
     this.view.setContent(ownerController.view);
+    this.view.setOptionsClass(this.view.elements.ownerButton, this.view.elements.hostButton);
 }
 
 HomeController.prototype = {
@@ -56,11 +62,13 @@ HomeController.prototype = {
     console.log("will logout");
   },
   
-  switchUser: function (mode) {
-    if (mode == OWNER) {
+  switchUser: function (targetMode) {
+    if (targetMode == OWNER) {
       this.view.setContent(this.ownerController.view);
+      this.view.setOptionsClass(this.view.elements.ownerButton, this.view.elements.hostButton);
     } else {
       this.view.setContent(this.hostController.view);
+      this.view.setOptionsClass(this.view.elements.hostButton, this.view.elements.ownerButton);
     }
   }
 };

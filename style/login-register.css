@@ -46,6 +46,7 @@
   font-weight: 500;
   background: none;
   border: none;
+  outline: none;
   color: #ED892D;
   cursor: pointer;
 }

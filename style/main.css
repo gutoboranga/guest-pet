@@ -52,6 +52,7 @@ body {
 .header-link {
   border: none;
   background: none;
+  outline: none;
   cursor: pointer;
 
   text-decoration: none;
