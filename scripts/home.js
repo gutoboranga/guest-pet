@@ -23,7 +23,7 @@ function HomeView(elements) {
 
 HomeView.prototype = {
   setContent: function (view) {
-    view.show(this.elements.contentBody);    
+    view.show(this.elements.contentBody);
   }
 };
 
@@ -32,7 +32,6 @@ function HomeController(user, view, ownerController, hostController) {
     this.view = view;
     this.ownerController = ownerController;
     this.hostController = hostController;
-    this.currentMode = OWNER;
     
     var _this = this;
     
@@ -46,6 +45,11 @@ function HomeController(user, view, ownerController, hostController) {
     this.view.hostButtonClicked.attach(function (sender, args) {
         _this.switchUser(HOST);
     });
+    
+    // no futuro aqui podemos checar qual o tipo do usuário pra iniciar mostrando a view certa.
+    // por enquanto mostra owner direto
+    this.currentMode = OWNER;
+    this.view.setContent(ownerController.view);
 }
 
 HomeController.prototype = {
