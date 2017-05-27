@@ -28,7 +28,7 @@ body {
   width: 40px;
   margin-top: 8px;
 
-  background-image: url("../images/guestPetLogo.png");
+  background: url("../images/guestPetLogo.png");
   background-position: center;
   background-size: cover;
 }

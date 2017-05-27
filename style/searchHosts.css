@@ -1,0 +1,33 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+}
+
+div ul li {
+    margin: 5px;
+}    
+
+img {
+	vertical-align: middle;
+	background-image: url("../images/guestPetLogo.png");
+  background-size: cover;
+
+}
+
+div ul li p {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#city {
+	margin:10px;
+	width:50%;
+	text-align: center;
+}
+
+#searchButton {
+}
