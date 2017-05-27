@@ -1,30 +1,85 @@
-var current_mode = "owner";
+const OWNER = 0;
+const HOST = 1;
 
-function changeMode(mode) {
-  //console.log(mode);
-  current_mode = mode;
-  changeSelectedModeHTML();
-  changeContent();
+function HomeView(elements) {
+    this.elements = elements;
+    
+    this.logoutButtonClicked = new Event(this);
+    this.ownerButtonClicked = new Event(this);
+    this.hostButtonClicked = new Event(this);
+    
+    var _this = this;
+        
+    this.elements.logoutButton.click(function (e) {
+        _this.logoutButtonClicked.notify();
+    });
+    this.elements.ownerButton.click(function (e) {
+        _this.ownerButtonClicked.notify();
+    });
+    this.elements.hostButton.click(function (e) {
+        _this.hostButtonClicked.notify();
+    });
 }
 
-function changeSelectedModeHTML() {
-  var new_modes_html = "<button onclick=\"changeMode('owner')\" class=\"user-mode-selected\">owner</button><button onclick=\"changeMode('host')\" class=\"user-mode\">host</button>"
-  if (current_mode == "host") {
-    new_modes_html = "<button onclick=\"changeMode('owner')\" class=\"user-mode\">owner</button><button onclick=\"changeMode('host')\" class=\"user-mode-selected\">host</button>"
+HomeView.prototype = {
+  setContent: function (view) {
+    this.elements.contentBody.html(view.show());
   }
-  document.getElementById("user-modes-container_id").innerHTML = new_modes_html;
+};
+
+function HomeController(user, view, ownerController, hostController) {
+    this.user = user;
+    this.view = view;
+    this.ownerController = ownerController;
+    this.hostController = hostController;
+    this.currentMode = OWNER;
+    
+    var _this = this;
+    
+    _this.view.logoutButtonClicked.attach(function (sender, args) {
+        console.log("will logout");
+        _this.logout();
+    });
+    this.view.ownerButtonClicked.attach(function (sender, args) {
+        _this.switchUser(OWNER);
+    });
+    this.view.hostButtonClicked.attach(function (sender, args) {
+        _this.switchUser(HOST);
+    });
 }
 
-function changeContent() {
-  // deve checar se o usuário está habilitado no current_mode.
-  // se não estiver, mostra "<h2>Você não está cadastrado neste modo de uso.</h2>"
-  var new_title = "<h1>Owner</h1>";
-  var new_content = "<h2>Aqui tem coisas de owner</h2>";
-
-  if (current_mode == "host") {
-    new_title = "<h1>Host</h1>";
-    new_content = "<h2>Você não está cadastrado neste modo de uso. (só um exemplo)</h2>";
+HomeController.prototype = {
+  logout: function () {
+    console.log("will logout");
+  },
+  
+  switchUser: function (mode) {
+    if (mode == OWNER) {
+      console.log("Onwer mode");
+      this.view.setContent(this.ownerController.view);
+    } else {
+      console.log("Host mode");
+      this.view.setContent(this.hostController.view);
+    }
+    
   }
-  document.getElementById("user-mode-title_id").innerHTML = new_title;
-  document.getElementById("user-content_id").innerHTML = new_content;
-}
+};
+
+$(function () {
+    var view = new HomeView({
+      'logoutButton' : $('#logoutButton'),
+      'ownerButton' : $('#ownerButton'),
+      'hostButton' : $('#hostButton'),
+      'contentBody' : $('#contentBody')
+    });
+    //just for test:
+    var user = users[0];
+    
+    var ownerView = new OwnerView();
+    var ownerController = new OwnerController(ownerView);
+    
+    var hostView = new HostView();
+    var hostController = new HostController(hostView);
+    
+    var controller = new HomeController(user, view, ownerController, hostController);
+});
