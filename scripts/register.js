@@ -139,7 +139,7 @@ RegisterController.prototype = {
       );
     
   		saveAs(blob, "registro.txt");
-  		window.location.replace("../templates/home.html");
+  		window.location.replace("../templates/searchHosts.html");
     } else {
       //console.log("input ruim");
     }
