@@ -7,7 +7,7 @@ function LoginView(elements) {
     var _this = this;
 
     this.loginButtonClicked = new Event(this);
-		this.registerButtonClicked = new Event(this);
+    this.registerButtonClicked = new Event(this);
 
     // attach listeners to HTML controls
     this.elements.loginButton.click(function (e) {
@@ -22,7 +22,8 @@ LoginView.prototype = {
     setVisible: function (element, visible) {
         if (visible) {
           element.show();
-        } else {
+        } 
+	else {
           element.hide();
         }
     },
