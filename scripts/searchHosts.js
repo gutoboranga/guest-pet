@@ -35,13 +35,22 @@ ListView.prototype = {
     },
 
     rebuildList : function () {
-		var found = this.model.list;
-		var list = this.elements.list;
-		list.html('');
-			for (var i = 0; i < found.length; i++) {
-					var image = '<img src="../images/guestPetLogo.png" class="profilePicture">';
-					var info = '<p>' + found[i].nome + '<br/>' + found[i].city + '</p>';
-					list.append($('<li>' + image + info + '</li>'));
+    		var found = this.model.list;
+    		var list = this.elements.list;
+    		list.html('');
+        
+        if (found.length > 0) {
+      		for (var i = 0; i < found.length; i++) {
+      			var image = '<img src="../images/guestPetLogo.png" class="profilePicture">';
+      			var info = '<p>' + found[i].nome + '<br/>' + found[i].city + '</p>';
+      			list.append($('<li>' + image + info + '</li>'));
+          }
+        } else {
+          var place = this.elements.city.val();
+          
+          if (place != 'Informe a cidade desejada') {
+            list.append($('<li>' + 'Nenhum host foi encontrado em ' + place + '</li>'));
+          }
         }
     }
 };
