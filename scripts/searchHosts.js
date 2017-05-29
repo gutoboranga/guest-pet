@@ -29,7 +29,7 @@ function ListView(model, elements) {
 	
 }
 
-ListView.prototype = {  
+ListView.prototype = {
     show : function () {
         this.rebuildList();
     },
@@ -40,7 +40,7 @@ ListView.prototype = {
 		list.html('');
 			for (var i = 0; i < found.length; i++) {
 					var image = '<img src="../images/guestPetLogo.png" class="profilePicture">';
-					var info = '<p>' + found[i].nome + '<br/>' + found[i].email + '</p>';
+					var info = '<p>' + found[i].nome + '<br/>' + found[i].city + '</p>';
 					list.append($('<li>' + image + info + '</li>'));
         }
     }
@@ -70,7 +70,7 @@ ListController.prototype = {
 		search: function () {
 		var found = [];
 		for (var i = 0; i < users.length; i++) {
-			if (users[i].email == this.view.elements.city.val()) {
+			if (users[i].city == this.view.elements.city.val()) {
 				found.push(users[i]);
 			}
 		}
