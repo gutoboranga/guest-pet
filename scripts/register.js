@@ -85,6 +85,20 @@ RegisterController.prototype = {
     this.view.setVisible(emailError, false);
 		return 1;
   },
+  
+  checkCity: function () {
+  	var cityField = this.view.elements.cityField;
+  	var cityError = this.view.elements.cityError;
+
+  	if (cityField.val() == "cidade") {
+      this.view.setVisible(cityError, true);
+      this.view.setText(cityError, "Insira uma cidade válida");
+  		return 0;
+  	}
+
+    this.view.setVisible(cityError, false);
+		return 1;
+  },
 
   checkPasswordConsistency: function () {
     var passwordField = this.view.elements.passwordField;
@@ -116,17 +130,19 @@ RegisterController.prototype = {
   },
 
   registerUser: function () {
-  	if (this.checkName() && this.checkEmail() && this.checkPasswordLength() && this.checkPasswordConsistency()) {
-      //////console.log("input ok");
+  	
+    if (this.checkName() && this.checkEmail() && this.checkCity() && this.checkPasswordLength() && this.checkPasswordConsistency()) {
       
       var name = this.view.elements.nameField.val();
       var email = this.view.elements.emailField.val();
+      var city = this.view.elements.cityField.val();
       var password = this.view.elements.passwordField.val();
     
   		var user = new User(
         name,
         email,
-        password
+        password,
+        city
       );
     
   		var blob = new Blob(
@@ -137,11 +153,9 @@ RegisterController.prototype = {
         
         { type: "text/plain;charset=utf-8" }
       );
-    
+      
+      window.location.replace("../templates/searchHosts.html");
   		saveAs(blob, "registro.txt");
-  		window.location.replace("../templates/searchHosts.html");
-    } else {
-      //console.log("input ruim");
     }
   },
 
@@ -156,6 +170,8 @@ $(function () {
       'nameError' : $('#nameError'),
       'emailField' : $('#emailField'),
       'emailError' : $('#emailError'),
+      'cityField' : $('#cityField'),
+      'cityError' : $('#cityError'),
       'passwordField' : $('#passwordField'),
       'passwordError' : $('#passwordError'),
       'confirmPasswordField' : $('#confirmPasswordField'),
