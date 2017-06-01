@@ -61,7 +61,7 @@ ListView.prototype = {
  */
 function ListController(view) {
     this.view = view;
-		this.list = [];
+    this.list = [];
 
     var _this = this;
 
@@ -96,13 +96,13 @@ ListController.prototype = {
 
 
 $(function () {
-				model = new ListModel();
+	model = new ListModel();
         view = new ListView(model, {
-						'searchButton' : $('#searchButton'),
-						'city'	:	$('#city'),
-            'list' : $('#list'),
+			'searchButton' : $('#searchButton'),
+			'city'	:$('#city'),
+            		'list' : $('#list'),
         });
         controller = new ListController(view);
-		controller.search();
-    view.show();
+	controller.search();
+    	view.show();
 });
