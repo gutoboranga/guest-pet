@@ -77,7 +77,7 @@ LoginController.prototype = {
 			if (users[i].senha == this.view.elements.passwordField.val()) {	// senha ok
 				this.view.setVisible(this.view.elements.userError, false);
 				this.view.setVisible(this.view.elements.passwordError, false);
-				window.location.replace("../templates/searchHosts.html");
+				window.location.replace("../templates/home.html");
 			}
 				
 			else {	// senha errada

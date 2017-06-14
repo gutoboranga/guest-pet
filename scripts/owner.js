@@ -1,6 +1,7 @@
 function OwnerView() {
   this.elements = {
-    'buttonId' : $('#buttonId')
+    'buttonId' : $('#buttonId'),
+    'searchHostContainer' : $('searchHostContainer')
   };
   
   var _this = this;
@@ -16,7 +17,8 @@ OwnerView.prototype = {
   // esta função refaz o link entre os elementos do html e as ações
   resetElements: function () {
     this.elements = {
-      'buttonId' : $('#buttonId')
+      'buttonId' : $('#buttonId'),
+      'searchHostContainer' : $('#searchHostContainer')
     };
     
     var _this = this;
@@ -27,11 +29,15 @@ OwnerView.prototype = {
   
   show: function (element) {
     var _this = this;
+    var content = "";
     
-    $.get("../templates/owner.html", function(content) {
-      element.html(content);
-      
-      _this.resetElements();
+    $.get("../templates/owner.html", function(template) {
+      $.get("../templates/searchHosts.html", function(searchComponent) {
+        element.html(template);
+        $('#searchHostContainer').html(searchComponent)
+        
+        _this.resetElements();
+      });
     });
   }
 };

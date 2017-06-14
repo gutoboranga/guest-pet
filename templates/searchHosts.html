@@ -1,44 +1,18 @@
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>GuestPet</title>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900|Crete+Round" rel="stylesheet">
-    <link href="../style/main.css" rel ="stylesheet" type="text/css"/>
-    <link href="../style/searchHosts.css" rel ="stylesheet" type="text/css"/>
-		    <script type="text/javascript" src="../scripts/jquery-3.1.0.js"></script>
-    <script type="text/javascript" src="../scripts/event.js"></script>
-    <script type="text/javascript" src="../scripts/model.js"></script>
-  </head>
-  <body>
+<div class="homeComponent">
+  
+  <h2>
+    Buscar um host
+    <br>para seu animal
+  </h2>
+  
+  <form action="javascript:void(0)">
+  	<input id="city" type="text" value="Informe a cidade desejada">
+  	<input id="searchButton" type="submit" value="Buscar">
+  </form>
 
-    <div class="header-container">
-      <div class="header-logo-container">
-        <div class="header-logo-image" src="../images/guestPetLogo"></div>
-        <a class="header-logo-title" href="index.html">GuestPet</a>
-      </div>
+  <div class="users-list">
+  	<ul id="list" class="userList" size="10"></ul>
+  </div>
+  <script type="text/javascript" src="../scripts/searchHosts.js"></script>
 
-      <div class="header-links-container">
-        <a class="header-link" href="home.html">Início</a>
-        <a class="header-link" href="profile.html">Perfil</a>
-        <button class="header-link">Mensagens</button>
-        <button class="header-link">Sair</button>
-      </div>
-    </div>
-    <div class="header-pseudo-shadow"></div>
-		
-		
-		<form action="javascript:void(0)">
-			<input id="city" type="text" value="Informe a cidade desejada">
-			<input id="searchButton" type="submit" value="Buscar">
-		</form>
-		
-		
-		<div class="users-list">
-			<ul id="list" class="userList" size="10"></ul>
-		</div>
-
-
-    <script type="text/javascript" src="../scripts/searchHosts.js"></script>
-
-  </body>
-</html>
+</div>
