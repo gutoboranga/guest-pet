@@ -64,11 +64,9 @@ HomeController.prototype = {
   
   switchUser: function (targetMode) {
     if (targetMode == OWNER) {
-      console.log("vai p owner");
       this.view.setContent(this.ownerController.view);
       this.view.setOptionsClass(this.view.elements.ownerButton, this.view.elements.hostButton);
     } else {
-      console.log("vai p host");
       this.view.setContent(this.hostController.view);
       this.view.setOptionsClass(this.view.elements.hostButton, this.view.elements.ownerButton);
     }

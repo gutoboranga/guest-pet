@@ -1,7 +1,8 @@
 function OwnerView() {
   this.elements = {
     'buttonId' : $('#buttonId'),
-    'searchHostContainer' : $('searchHostContainer')
+    'searchHostContainer' : $('#searchHostContainer'),
+    'managePetsContainer' : $('#managePetsContainer'),
   };
   
   var _this = this;
@@ -18,7 +19,8 @@ OwnerView.prototype = {
   resetElements: function () {
     this.elements = {
       'buttonId' : $('#buttonId'),
-      'searchHostContainer' : $('#searchHostContainer')
+      'searchHostContainer' : $('#searchHostContainer'),
+      'managePetsContainer' : $('#managePetsContainer'),
     };
     
     var _this = this;
@@ -32,12 +34,17 @@ OwnerView.prototype = {
     var content = "";
     
     $.get("../templates/owner.html", function(template) {
+      element.html(template);
+      
       $.get("../templates/searchHosts.html", function(searchComponent) {
-        element.html(template);
         $('#searchHostContainer').html(searchComponent)
-        
-        _this.resetElements();
       });
+      
+      $.get("../templates/managePets.html", function(managePetsComponent) {
+        $('#managePetsContainer').html(managePetsComponent)
+      });
+      
+      _this.resetElements();
     });
   }
 };
