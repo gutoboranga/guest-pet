@@ -48,8 +48,8 @@ ListView.prototype = {
         } else {
           var place = this.elements.city.val();
           
-          if (place != 'Informe a cidade desejada') {
-            list.append($('<li>' + 'Nenhum host foi encontrado em ' + place + '</li>'));
+          if (place != 'cidade') {
+            list.append($('<li class="searchResult">Nenhum host foi encontrado para a sua pesquisa</li>'));
           }
         }
     }

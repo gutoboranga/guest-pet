@@ -23,11 +23,39 @@ div ul li p {
     vertical-align: middle;
 }
 
+.users-list {
+  padding-top: 15px;
+}
+
+.search-field {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #999;
+  text-align: center;
+  box-shadow: none;
+  padding: 8px;
+  width: 28%;
+}
+
+.search-button {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  background-color: #F18634;
+  text-align: center;
+  box-shadow: none;
+  padding: 10px;
+  border: none;
+  width: 10%;
+}
+/*
 #city {
 	margin:10px;
 	width:50%;
 	text-align: center;
-}
+}*/
 
 #searchButton {
 }

@@ -3,10 +3,16 @@
   <br>para seu animal
 </h2>
 
-<form action="javascript:void(0)">
-	<input id="city" type="text" value="Informe a cidade desejada">
-	<input id="searchButton" type="submit" value="Buscar">
-</form>
+<link href="../style/searchHosts.css" rel ="stylesheet" type="text/css"/>
+
+<div class="search-form">
+  <form action="javascript:void(0)">
+  	<input id="animalType" class="search-field" type="text" value="tipo de bicho">
+    <input id="lodgingDate" class="search-field" type="text" value="data de hospedagem">
+    <input id="city" class="search-field" type="text" value="cidade">
+  	<input id="searchButton" class="search-button" type="submit" value="Buscar">
+  </form>
+</div>
 
 <div class="users-list">
 	<ul id="list" class="userList" size="10"></ul>
