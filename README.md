@@ -1,5 +1,7 @@
 # GuestPet development repo
 
+Created for an assignment of the Software Engineering class (INF01127 - 2017/1) ministered by prof. Lucinéia Thom.
+
 ## About our project
 
 GuestPet is a hosting pet service website created with the intention of allowing
@@ -17,7 +19,11 @@ As we are using MVC , the documentation will be separated as the following
 
 ### Repository owners
 Augusto Boranga
+
 João Flach
+
 Lucas Barros de Assis
+
 Pedro Foletto Pimenta
+
 Vilmar Neto
