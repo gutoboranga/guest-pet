@@ -14,3 +14,10 @@ As we are using MVC , the documentation will be separated as the following
 1. Model
 2. Controller
 3. View 
+
+### Repository owners
+Augusto Boranga
+João Flach
+Lucas Barros de Assis
+Pedro Foletto Pimenta
+Vilmar Neto
