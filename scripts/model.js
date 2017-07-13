@@ -42,6 +42,10 @@ class Home {
 		this.currentOccupation = currentOccupation;
 		this.description = description;
 	}
+	
+	isAvailable() {
+		return (this.capacity - this.currentOccupation) > 0;
+	}
 }
 
 class Adress {
@@ -53,9 +57,3 @@ class Adress {
 		this.country = country;
 	}
 }
-
-var boranga = new User("Baranga", "baranguinha@yahoo", "12345", "porto alegre");
-var pimenta = new User("Little Pepper", "pimentinha@bol", "54321", "porto alegre");
-var flach = new User("Armless John", "mcflachinho@rnf", "roller", "roller city");
-
-var users = [boranga, pimenta, flach];

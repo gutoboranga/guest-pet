@@ -22,11 +22,6 @@ function ListView(model, elements) {
 		this.elements.searchButton.click(function () {
 				_this.searchButtonClicked.notify();
 		});
-	
-  //  this.elements.list.change(function (e) {
-  //      _this.listModified.notify({ index : e.target.selectedIndex });
-  //  });
-	
 }
 
 ListView.prototype = {
@@ -78,14 +73,26 @@ ListController.prototype = {
 
 		search: function () {
 		var found = [];
-		for (var i = 0; i < users.length; i++) {
-			if (users[i].city == this.view.elements.city.val()) {
+    
+    // NO FUTURO DEVE PEGAR DO BANCO DE DADOS OS USERS COM ATRIBUTO isHostUser = true
+    
+    for (var i = 0; i < users.length; i++) {
+      // se for host e da mesma cidade
+			if (users[i].isHostUser && users[i].adress.city == this.view.elements.city.val()) {
+        // procura nas residências dele se tem alguma com capacidade
+        for (var j = 0; j < users.length; j++) {
+          var home = users[i].homes[j];
+          if (home.isAvailable()) {
+            found.push(users[i]);
+          }
+        }
+          if (users)
+      } && users[i].adress.city == this.view.elements.city.val()) {
 				found.push(users[i]);
 			}
 		}
 			
 		this.view.model.list = found;
-		
 		this.view.rebuildList();
 	},
 	
@@ -93,7 +100,6 @@ ListController.prototype = {
         this._model.setSelectedIndex(index);
     }
 };
-
 
 $(function () {
 				model = new ListModel();
