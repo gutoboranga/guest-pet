@@ -10,36 +10,40 @@ class User {
 		this.isFiscalUser = isFiscalUser;
 		
 		// owner attributes
-		this.pets = pets;
-		this.ownerHistory = ownerHistory;
-		this.ownerPoints = ownerPoints;
+		this.pets = [];
+		this.ownerHistory = [];
+		this.ownerPoints = [];
 		
 		// host attributes
-		this.homes = homes;
-		this.hostHistory = hostHistory;
-		this.hostPoints = hostPoints;
+		this.homes = [];
+		this.hostHistory = [];
+		this.hostPoints = [];
 	}
+    
+    addHome(home) {
+        this.homes.push(home);
+    };
 }
 
 class Pet {
-	constructor(name, species, size, nature, state, photo, birthDate) {
+	constructor(name, species, size, nature, photo, birthDate) {
 		this.name = name;
 		this.species = species;
 		this.size = size;
 		this.nature = nature;
-		this.state = state;
+        this.state = 0; // 0 É EM CASA
 		this.birthDate = birthDate || 0;
 		this.photo = photo;
 	}
 }
 
 class Home {
-	constructor(name, adress, photos, capacity, currentOccupation, description) {
+	constructor(name, adress, photos, capacity, description) {
 		this.name = name;
 		this.adress = adress;
 		this.photos = photos;
 		this.capacity = capacity;
-		this.currentOccupation = currentOccupation;
+		this.currentOccupation = 0;
 		this.description = description;
 	}
 }
@@ -54,8 +58,23 @@ class Adress {
 	}
 }
 
-var boranga = new User("Baranga", "baranguinha@yahoo", "12345", "porto alegre");
-var pimenta = new User("Little Pepper", "pimentinha@bol", "54321", "porto alegre");
-var flach = new User("Armless John", "mcflachinho@rnf", "roller", "roller city");
+var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Brasil");
 
-var users = [boranga, pimenta, flach];
+var userLukita = new User("Lukita", "lukita@hotmail.com", "123deoliveira4", "Canoas", "17/07/94", 0, 1, 0);
+var dogLukita = new Pet("Dog", "Cachorro", "Pequeno", "Alterado", "aaaaa", "2015");
+
+var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", 1, 0, 0);
+var adressBoranguinhaPoa = new Adress("Av Venancio Aires", 281, "Porto Alegre", "RS", "Brasil");
+var adressboranguinhaPraia = new Adress("Av Praia", 999, "Capão da Canoa", "RS", "Brasil");
+var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, "Apê em poa");
+var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, "Só animais marinhos");
+
+//var boranga = new User("Baranga", "baranguinha@yahoo", "12345", "porto alegre");
+//var pimenta = new User("Little Pepper", "pimentinha@bol", "54321", "porto alegre");
+//var flach = new User("Armless John", "mcflachinho@rnf", "roller", "roller city");
+
+var users = [userBoranga];
+console.log(userBoranga);
+userBoranga.addHome(homeBorangaPraia);
+console.log(userBoranga);
+
