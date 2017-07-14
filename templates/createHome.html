@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>GuestPet</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900|Crete+Round" rel="stylesheet">
+    <link href="../style/main.css" rel ="stylesheet" type="text/css"/>
+    <link href="../style/home.css" rel ="stylesheet" type="text/css"/>
+    
+    <script type="text/javascript" src="../scripts/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="../scripts/event.js"></script>
+    <script type="text/javascript" src="../scripts/model.js"></script>
+  </head>
+  <body>
+
+    <div class="header-container">
+      <div class="header-logo-container">
+        <div class="header-logo-image" src="../images/guestPetLogo"></div>
+        <a class="header-logo-title" href="index.html">GuestPet</a>
+      </div>
+
+      <div class="header-links-container">
+        <a class="header-link" href="home.html">Início</a>
+        <a class="header-link" href="profile.html">Perfil</a>
+        <button class="header-link">Mensagens</button>
+        <button id="logoutButton" class="header-link">Sair</button>
+      </div>
+    </div>
+    <div class="header-pseudo-shadow"></div>
+
+    <div class="content-body">
+        <button class="header-link" id="goBackButton">Voltar</button>
+        <h1>Cadastrar nova residência</h1>
+        
+        <form action="javascript:void(0)">
+          <input class="login-field" id="homeNameField" type="text" name="name" value="nome"><p style="display:none" id="homeNameFieldError"></p><br><br>
+          <input class="login-field" id="homeCapacityField" type="text" name="species" value="capacidade"><p style="display:none" id="homeCapacityFieldError"></p><br>
+          <input class="login-field" id="homeDescriptionField" type="text" name="size" value="descrição"><p style="display:none" id="homeDescriptionFieldError"></p><br>
+          <input class="login-field" id="homeStreetField" type="text" name="nature" value="rua"><p style="display:none" id="homeStreetFieldError"></p><br>
+          <input class="login-field" id="homeNumberField" type="text" name="nature" value="número"><p style="display:none" id="homeNumberFieldError"></p><br>
+          <input class="login-field" id="homeCityField" type="text" name="nature" value="cidade"><p style="display:none" id="homeCityFieldError"></p><br>
+          <input class="login-field" id="homeStateField" type="text" name="nature" value="estado"><p style="display:none" id="homeStateFieldError"></p><br>
+          <input class="login-field" id="homeCountryField" type="text" name="nature" value="país"><p style="display:none" id="homeCountryFieldError"></p><br>
+          <input class="login-submit" id="createHomeButton" type="submit" value="Criar"><br>
+        </form>
+    </div>
+    
+    <script type="text/javascript" src="../scripts/createHome.js"></script>
+  </body>
+</html>
