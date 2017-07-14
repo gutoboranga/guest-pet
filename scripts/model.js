@@ -7,35 +7,35 @@ class User {
 		this.password = password;
 		this.city = city;
 		this.birthDate = birthDate;
-		
+
 		this.isHostUser = isHostUser;
 		this.isOwnerUser = isOwnerUser;
 		this.isFiscalUser = isFiscalUser;
-		
+
 		// owner attributes
 		this.pets = [];
 		this.ownerHistory = [];
 		this.ownerPoints = [];
-		
+
 		// host attributes
 		this.homes = [];
 		this.hostHistory = [];
 		this.hostPoints = [];
 	}
-    
+
     addPet(pet) {
         this.pets.push(pet);
     }
     addHome(home) {
         this.homes.push(home);
     }
-    
+
     addTransaction(transaction) {
-        
+
         if (this == transaction.owner) {
             this.ownerHistory.push(transaction);
         }
-        
+
         else {
             this.hostHistory.push(transaction);
         }
@@ -55,15 +55,16 @@ class Pet {
 }
 
 class Home {
-	constructor(name, adress, photos, capacity, description) {
+	constructor(name, adress, photos, capacity, value, description) {
 		this.name = name;
 		this.adress = adress;
 		this.photos = photos;
 		this.capacity = capacity;
+		this.value = value;
 		this.currentOccupation = 0;
 		this.description = description;
 	}
-	
+
 	isAvailable() {
 		return (this.capacity - this.currentOccupation) > 0;
 	}
@@ -101,17 +102,22 @@ userLukita.addPet(iguanaLukita);
 var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", true, false, false);
 var adressBoranguinhaPoa = new Adress("Av Venancio Aires", 281, "Porto Alegre", "RS", "Brasil");
 var adressboranguinhaPraia = new Adress("Av Praia", 999, "Capão da Canoa", "RS", "Brasil");
-var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, "Apê em poa");
-var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, "Só animais marinhos");
+var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, 200, "Apê em poa");
+var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, 50, "Só animais marinhos");
 userBoranga.addHome(homeBorangaPraia);
 userBoranga.addHome(homeBorangaPoa);
 
+
+var userJoao = new User("Joao", "joaozinho@gmail", "aaa", "Porto Alegre", "17/07/94", true, false, false);
+var adressJoao = new Adress("Luis de Camões", 151, "Porto Alegre", "RS", "Brasil");
+var homeJoao = new Home("Lusiadas", adressJoao, [], 1, 100, "Casa da Fufu");
+userJoao.addHome(homeJoao);
 // console.log(userBoranga);
 // console.log(userLukita);
 
 var dogNaPraia = new Transaction(userLukita, userBoranga, dogLukita, homeBorangaPraia, 10, 5);
 
-var users = [userBoranga, userLukita];
+var users = [userBoranga, userLukita, userJoao];
 // console.log(userBoranga);
 // userBoranga.addHome(homeBorangaPraia);
 // console.log(userBoranga);
