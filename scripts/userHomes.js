@@ -103,11 +103,24 @@ ListController.prototype = {
     updateSelected : function (index) {
         this._model.setSelectedIndex(index);
     }
+
 };
+
+function userByName(username) {
+
+  for (var i = 0; i<users.length;i++) {
+    if (users[i].name == username) {
+      return users[i];
+    }
+  }
+}
 
 $(function () {
 
-        var user = findUser();
+       var url = document.location;
+	     var userName = url.toString().split("=")[1];
+       console.log(userName);
+       var user = userByName(userName);
 
 				model = new ListModel();
         view = new ListView(model, {

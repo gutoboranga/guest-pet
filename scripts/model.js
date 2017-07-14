@@ -106,7 +106,7 @@ userBoranga.addHome(homeBorangaPraia);
 userBoranga.addHome(homeBorangaPoa);
 
 
-var userJoao = new User("João", "joaozinho@gmail", "aaa", "Porto Alegre", "17/07/94", true, false, false);
+var userJoao = new User("Joao", "joaozinho@gmail", "aaa", "Porto Alegre", "17/07/94", true, false, false);
 var adressJoao = new Adress("Luis de Camões", 151, "Porto Alegre", "RS", "Brasil");
 var homeJoao = new Home("Lusiadas", adressJoao, [], 1, 100, "Casa da Fufu");
 userJoao.addHome(homeJoao);

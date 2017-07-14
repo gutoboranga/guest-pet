@@ -71,9 +71,8 @@ function ListController(view) {
         _this.search();
     });
 
-    this.view.detailsButtonClicked.attach(function (e) {
-      console.log(e);
-        _this.showDetails(e);
+    this.view.detailsButtonClicked.attach(function (sender, args) {
+        _this.showDetails(args);
     })
 }
 
@@ -93,7 +92,11 @@ ListController.prototype = {
     },
 
     showDetails: function(e) {
-      console.log(e);
+      var index = e.currentTarget.id.split('button')[1];
+
+      var userName = this.view.model.list[index].name;
+
+      location.replace("../templates/hostProfile.html?="+userName);
     },
 
 
