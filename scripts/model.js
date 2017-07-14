@@ -105,12 +105,17 @@ var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, 50, "S
 userBoranga.addHome(homeBorangaPraia);
 userBoranga.addHome(homeBorangaPoa);
 
+
+var userJoao = new User("João", "joaozinho@gmail", "aaa", "Porto Alegre", "17/07/94", true, false, false);
+var adressJoao = new Adress("Luis de Camões", 151, "Porto Alegre", "RS", "Brasil");
+var homeJoao = new Home("Lusiadas", adressJoao, [], 1, 100, "Casa da Fufu");
+userJoao.addHome(homeJoao);
 // console.log(userBoranga);
 // console.log(userLukita);
 
 var dogNaPraia = new Transaction(userLukita, userBoranga, dogLukita, homeBorangaPraia, 10, 5);
 
-var users = [userBoranga, userLukita];
+var users = [userBoranga, userLukita, userJoao];
 // console.log(userBoranga);
 // userBoranga.addHome(homeBorangaPraia);
 // console.log(userBoranga);

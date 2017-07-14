@@ -25,6 +25,19 @@ div ul li p {
     padding-left: 10px;
 }
 
+.host-details-button {
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  background-color: #F18634;
+  text-align: center;
+  box-shadow: none;
+  margin-left: 200px;
+  border: none;
+  width: 10%;
+}
+
 .users-list {
   padding-top: 15px;
 }
