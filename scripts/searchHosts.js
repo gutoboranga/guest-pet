@@ -33,16 +33,16 @@ ListView.prototype = {
     		var found = this.model.list;
     		var list = this.elements.list;
     		list.html('');
-        
+
         if (found.length > 0) {
       		for (var i = 0; i < found.length; i++) {
       			var image = '<img src="../images/guestPetLogo.png" class="profilePicture">';
-      			var info = '<p>' + found[i].nome + '<br/>' + found[i].city + '</p>';
+      			var info = '<p>' + found[i].name + '<br/>' + found[i].city + '</p>';
       			list.append($('<li>' + image + info + '</li>'));
           }
         } else {
           var place = this.elements.city.val();
-          
+
           if (place != 'cidade') {
             list.append($('<li class="searchResult">Nenhum host foi encontrado para a sua pesquisa</li>'));
           }
@@ -63,7 +63,7 @@ function ListController(view) {
     this.view.listModified.attach(function (sender, args) {
         _this.updateSelected(args.index);
     });
-		
+
     this.view.searchButtonClicked.attach(function () {
         _this.search();
     });
@@ -73,9 +73,9 @@ ListController.prototype = {
 
 		search: function () {
 		var found = [];
-    
+
     // NO FUTURO DEVE PEGAR DO BANCO DE DADOS OS USERS COM ATRIBUTO isHostUser = true
-    
+
     for (var i = 0; i < users.length; i++) {
       // se for host e da mesma cidade
 			if (users[i].isHostUser) {
@@ -83,18 +83,18 @@ ListController.prototype = {
         for (var j = 0; j < users.length; j++) {
           var home = users[i].homes[j];
           var searcherCity = this.view.elements.city.val();
-          
+
           if (home.isAvailable() && home.adress.city == searcherCity) {
             found.push(users[i]);
           }
         }
       }
 		}
-			
+
 		this.view.model.list = found;
 		this.view.rebuildList();
 	},
-	
+
     updateSelected : function (index) {
         this._model.setSelectedIndex(index);
     }

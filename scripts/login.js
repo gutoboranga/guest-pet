@@ -52,48 +52,48 @@ function LoginController(view) {
 }
 
 LoginController.prototype = {
-	
+
 	login: function () {
-		
+
 		var found = 0;
 		var i = 0;
-		
+
 		while (i < users.length && found == 0) {
 			if (users[i].name == this.view.elements.loginField.val()) {
 				found = 1;
 			}
 			i++;
 		}
-		
+
 		if (found == 0) { // nao achou
 			this.view.setText(this.view.elements.userError, "Usuário não cadastrado");
 			this.view.setVisible(this.view.elements.userError, true);
 			this.view.setVisible(this.view.elements.passwordError, false);
 		}
-		
+
 		else {	// achou
-			
+
 			i--;	// corrige o i que foi a mais
 			if (users[i].password == this.view.elements.passwordField.val()) {	// senha ok
 				this.view.setVisible(this.view.elements.userError, false);
 				this.view.setVisible(this.view.elements.passwordError, false);
-                document.cookie = users[i].name;
+        document.cookie = users[i].name;
 				window.location.replace("../templates/home.html");
 			}
-				
+
 			else {	// senha errada
 					this.view.setVisible(this.view.elements.passwordError, true);
 					this.view.setText(this.view.elements.passwordError, "Senha incorreta");
 					this.view.setVisible(this.view.elements.userError, false);
 				}
 		}
-		
+
 	},
 
   goToRegisterScreen: function () {
 		window.location.replace("../templates/register.html");
 	}
-	
+
 };
 
 $(function () {

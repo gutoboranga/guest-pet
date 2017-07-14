@@ -55,11 +55,12 @@ class Pet {
 }
 
 class Home {
-	constructor(name, adress, photos, capacity, description) {
+	constructor(name, adress, photos, capacity, value, description) {
 		this.name = name;
 		this.adress = adress;
 		this.photos = photos;
 		this.capacity = capacity;
+		this.value = value;
 		this.currentOccupation = 0;
 		this.description = description;
 	}
@@ -99,8 +100,8 @@ userLukita.addPet(dogLukita);
 var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", true, false, false);
 var adressBoranguinhaPoa = new Adress("Av Venancio Aires", 281, "Porto Alegre", "RS", "Brasil");
 var adressboranguinhaPraia = new Adress("Av Praia", 999, "Capão da Canoa", "RS", "Brasil");
-var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, "Apê em poa");
-var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, "Só animais marinhos");
+var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, 200, "Apê em poa");
+var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, 50, "Só animais marinhos");
 userBoranga.addHome(homeBorangaPraia);
 userBoranga.addHome(homeBorangaPoa);
 

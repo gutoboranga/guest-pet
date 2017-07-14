@@ -9,6 +9,7 @@ ul {
 
 div ul li {
     margin: 5px;
+    padding-bottom: 25px;
 }
 
 img {
@@ -18,9 +19,10 @@ img {
 }
 
 div ul li p {
-    
+
     display: inline-block;
     vertical-align: middle;
+    padding-left: 10px;
 }
 
 .users-list {
