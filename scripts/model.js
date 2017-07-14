@@ -1,11 +1,18 @@
 // import {UserMode} from "enums";
 
 class User {
+<<<<<<< HEAD
 	constructor(name, email, senha, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
 		this.name = name;
 		this.email = email;
 		this.senha = senha;
 		this.city = city;
+=======
+	constructor(name, email, password, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+>>>>>>> 4fbf2b17744b9ce0f444e9e99bc43a6a03507d73
 		this.birthDate = birthDate;
 		
 		this.isHostUser = isHostUser;
@@ -23,13 +30,23 @@ class User {
 		this.hostPoints = [];
 	}
     
-	addPet(pet) {
-		this.pets.push(pet);
-	}
-		
-  addHome(home) {
-    this.homes.push(home);
-  }
+    addPet(pet) {
+        this.pets.push(pet);
+    }
+    addHome(home) {
+        this.homes.push(home);
+    }
+    
+    addTransaction(transaction) {
+        
+        if (this == transaction.owner) {
+            this.ownerHistory.push(transaction);
+        }
+        
+        else {
+            this.hostHistory.push(transaction);
+        }
+    }
 }
 
 class Pet {
@@ -69,6 +86,17 @@ class Adress {
 	}
 }
 
+class Transaction {
+    constructor(owner, host, pet, home, period, value) {
+        this.owner = owner;
+        this.host = host;
+        this.pet = pet;
+        this.home = home;
+        this.period = period;
+        this.value = value;
+    }
+}
+
 var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Brasil");
 
 var userLukita = new User("Lukita", "lukita@hotmail.com", "123deoliveira4", "Canoas", "17/07/94", false, true, false);
@@ -86,9 +114,13 @@ userBoranga.addHome(homeBorangaPoa);
 // console.log(userBoranga);
 // console.log(userLukita);
 
-//var boranga = new User("Baranga", "baranguinha@yahoo", "12345", "porto alegre");
-//var pimenta = new User("Little Pepper", "pimentinha@bol", "54321", "porto alegre");
-//var flach = new User("Armless John", "mcflachinho@rnf", "roller", "roller city");
+var dogNaPraia = new Transaction(userLukita, userBoranga, dogLukita, homeBorangaPraia, 10, 5);
 
 var users = [userBoranga, userLukita];
-// console.log(users);
+// console.log(userBoranga);
+// userBoranga.addHome(homeBorangaPraia);
+// console.log(userBoranga);
+// userBoranga.addTransaction(dogNaPraia);
+// userLukita.addTransaction(dogNaPraia);
+// console.log(userLukita.ownerHistory[0]);
+//

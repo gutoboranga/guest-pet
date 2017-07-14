@@ -59,7 +59,7 @@ LoginController.prototype = {
 		var i = 0;
 		
 		while (i < users.length && found == 0) {
-			if (users[i].nome == this.view.elements.loginField.val()) {
+			if (users[i].name == this.view.elements.loginField.val()) {
 				found = 1;
 			}
 			i++;
@@ -74,9 +74,10 @@ LoginController.prototype = {
 		else {	// achou
 			
 			i--;	// corrige o i que foi a mais
-			if (users[i].senha == this.view.elements.passwordField.val()) {	// senha ok
+			if (users[i].password == this.view.elements.passwordField.val()) {	// senha ok
 				this.view.setVisible(this.view.elements.userError, false);
 				this.view.setVisible(this.view.elements.passwordError, false);
+                document.cookie = users[i].name;
 				window.location.replace("../templates/home.html");
 			}
 				
