@@ -14,8 +14,6 @@ function findUser() {
   }
 }
 
-
-
 function HomeView(elements) {
     this.elements = elements;
   
@@ -103,7 +101,7 @@ $(function () {
     });
     
     //just for test:
-    var user = findUser;
+    var user = findUser();
   
     var ownerView = new OwnerView();
     var ownerController = new OwnerController(user, ownerView);

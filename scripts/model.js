@@ -1,18 +1,11 @@
 // import {UserMode} from "enums";
 
 class User {
-<<<<<<< HEAD
-	constructor(name, email, senha, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
-		this.name = name;
-		this.email = email;
-		this.senha = senha;
-		this.city = city;
-=======
 	constructor(name, email, password, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
->>>>>>> 4fbf2b17744b9ce0f444e9e99bc43a6a03507d73
+		this.city = city;
 		this.birthDate = birthDate;
 		
 		this.isHostUser = isHostUser;
