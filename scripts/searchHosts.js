@@ -12,7 +12,7 @@ function ListModel() {
 function ListView(model, elements) {
     this.elements = elements;
 		this.model = model;
-		console.log(elements);
+		
 		var _this = this;
 
     this.listModified = new Event(this);
@@ -37,7 +37,7 @@ ListView.prototype = {
         if (found.length > 0) {
       		for (var i = 0; i < found.length; i++) {
       			var image = '<img src="../images/guestPetLogo.png" class="profilePicture">';
-      			var info = '<p>' + found[i].nome + '<br/>' + found[i].city + '</p>';
+      			var info = '<p>' + found[i].name + '<br/>' + found[i].city + '</p>';
       			list.append($('<li>' + image + info + '</li>'));
           }
         } else {

@@ -94,9 +94,11 @@ var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Bras
 
 var userLukita = new User("Lukita", "lukita@hotmail.com", "123deoliveira4", "Canoas", "17/07/94", false, true, false);
 var dogLukita = new Pet("Dog", "Cachorro", "Pequeno", "Alterado", "aaaaa", "2015");
+var iguanaLukita = new Pet("Cauboi velho", "Iguana", "Gigante", "Dócil", "aaaaa", "2015");
 userLukita.addPet(dogLukita);
+userLukita.addPet(iguanaLukita);
 
-var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", 1, 0, 0);
+var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", true, false, false);
 var adressBoranguinhaPoa = new Adress("Av Venancio Aires", 281, "Porto Alegre", "RS", "Brasil");
 var adressboranguinhaPraia = new Adress("Av Praia", 999, "Capão da Canoa", "RS", "Brasil");
 var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, "Apê em poa");
