@@ -96,7 +96,7 @@ var userLukita = new User("Lukita", "lukita@hotmail.com", "123deoliveira4", "Can
 var dogLukita = new Pet("Dog", "Cachorro", "Pequeno", "Alterado", "aaaaa", "2015");
 userLukita.addPet(dogLukita);
 
-var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", 1, 0, 0);
+var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", true, false, false);
 var adressBoranguinhaPoa = new Adress("Av Venancio Aires", 281, "Porto Alegre", "RS", "Brasil");
 var adressboranguinhaPraia = new Adress("Av Praia", 999, "Capão da Canoa", "RS", "Brasil");
 var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, "Apê em poa");
