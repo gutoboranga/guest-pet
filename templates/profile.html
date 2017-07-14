@@ -8,6 +8,8 @@
     <script type="text/javascript" src="../scripts/jquery-3.1.0.js"></script>
     <script type="text/javascript" src="../scripts/model.js"></script>
     <script type="text/javascript" src="../scripts/profile.js"></script>
+    <script type="text/javascript" src="../scripts/event.js"></script>
+
   </head>
   <body>
     <div class="header-container">
@@ -20,33 +22,33 @@
         <a class="header-link" href="home.html">Início</a>
         <a class="header-link" href="profile.html">Perfil</a>
         <button class="header-link">Mensagens</button>
-        <button class="header-link">Sair</button>
+        <button id="logoutButton" class="header-link" >Sair</button>
       </div>
     </div>
     <div class="header-pseudo-shadow"></div>
 
     <div class="content-body">
       <h1 id="name">Fulano de tal</h1>
-      
+
       <div class="homeComponent">
         <h2 id=>E-mail</h2>
         <h3 id="email">fulaninho@gmail.com</h3>
       </div>
-      
+
       <div class="homeComponentsDivisor"></div>
-      
+
       <div class="homeComponent">
         <h2>Tipo de usuário</h2>
         <h3>[X] Owner<br>[  ] Host</h3>
       </div>
-      
+
       <div class="homeComponentsDivisor"></div>
-      
+
       <div class="homeComponent">
         <h2>Cidade</h2>
         <h3 id="city">Happy Harbor</h3>
       </div>
-      
+
     </div>
   </body>
 </html>

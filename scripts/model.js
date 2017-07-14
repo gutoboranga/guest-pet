@@ -1,48 +1,41 @@
 // import {UserMode} from "enums";
 
 class User {
-<<<<<<< HEAD
-	constructor(name, email, senha, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
-		this.name = name;
-		this.email = email;
-		this.senha = senha;
-		this.city = city;
-=======
 	constructor(name, email, password, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
->>>>>>> 4fbf2b17744b9ce0f444e9e99bc43a6a03507d73
+		this.city = city;
 		this.birthDate = birthDate;
-		
+
 		this.isHostUser = isHostUser;
 		this.isOwnerUser = isOwnerUser;
 		this.isFiscalUser = isFiscalUser;
-		
+
 		// owner attributes
 		this.pets = [];
 		this.ownerHistory = [];
 		this.ownerPoints = [];
-		
+
 		// host attributes
 		this.homes = [];
 		this.hostHistory = [];
 		this.hostPoints = [];
 	}
-    
+
     addPet(pet) {
         this.pets.push(pet);
     }
     addHome(home) {
         this.homes.push(home);
     }
-    
+
     addTransaction(transaction) {
-        
+
         if (this == transaction.owner) {
             this.ownerHistory.push(transaction);
         }
-        
+
         else {
             this.hostHistory.push(transaction);
         }
@@ -70,7 +63,7 @@ class Home {
 		this.currentOccupation = 0;
 		this.description = description;
 	}
-	
+
 	isAvailable() {
 		return (this.capacity - this.currentOccupation) > 0;
 	}
