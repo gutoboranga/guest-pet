@@ -1,9 +1,24 @@
 const OWNER = 0;
 const HOST = 1;
 
+function findUser() {
+  
+  var i = 0;
+  var cookie = document.cookie;
+  
+  while (i < users.length) {
+    if (cookie == users[i].name) {
+      return users[i];
+    }
+    i++;
+  }
+}
+
+
+
 function HomeView(elements) {
     this.elements = elements;
-
+  
     this.logoutButtonClicked = new Event(this);
     this.ownerButtonClicked = new Event(this);
     this.hostButtonClicked = new Event(this);
@@ -60,6 +75,8 @@ function HomeController(user, view, ownerController, hostController) {
 HomeController.prototype = {
   logout: function () {
     console.log("will logout");
+    document.cookie = this.view.user.name + '; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    location.replace("../templates/index.html");
   },
   
   switchUser: function (targetMode) {
@@ -81,8 +98,8 @@ $(function () {
       'contentBody' : $('#contentBody')
     });
     //just for test:
-    var user = users[0];
-    
+    var user = findUser;
+  
     var ownerView = new OwnerView();
     var ownerController = new OwnerController(ownerView);
     

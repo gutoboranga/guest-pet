@@ -1,8 +1,8 @@
 class User {
-	constructor(nome, email, senha, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
-		this.nome = nome;
+	constructor(name, email, password, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
+		this.name = name;
 		this.email = email;
-		this.senha = senha;
+		this.password = password;
 		this.birthDate = birthDate;
 		
 		this.isHostUser = isHostUser;
@@ -20,9 +20,23 @@ class User {
 		this.hostPoints = [];
 	}
     
+    addPet(pet) {
+        this.pets.push(pet);
+    }
     addHome(home) {
         this.homes.push(home);
-    };
+    }
+    
+    addTransaction(transaction) {
+        
+        if (this == transaction.owner) {
+            this.ownerHistory.push(transaction);
+        }
+        
+        else {
+            this.hostHistory.push(transaction);
+        }
+    }
 }
 
 class Pet {
@@ -58,6 +72,17 @@ class Adress {
 	}
 }
 
+class Transaction {
+    constructor(owner, host, pet, home, period, value) {
+        this.owner = owner;
+        this.host = host;
+        this.pet = pet;
+        this.home = home;
+        this.period = period;
+        this.value = value;
+    }
+}
+
 var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Brasil");
 
 var userLukita = new User("Lukita", "lukita@hotmail.com", "123deoliveira4", "Canoas", "17/07/94", 0, 1, 0);
@@ -69,12 +94,13 @@ var adressboranguinhaPraia = new Adress("Av Praia", 999, "Capão da Canoa", "RS"
 var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, "Apê em poa");
 var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, "Só animais marinhos");
 
-//var boranga = new User("Baranga", "baranguinha@yahoo", "12345", "porto alegre");
-//var pimenta = new User("Little Pepper", "pimentinha@bol", "54321", "porto alegre");
-//var flach = new User("Armless John", "mcflachinho@rnf", "roller", "roller city");
+var dogNaPraia = new Transaction(userLukita, userBoranga, dogLukita, homeBorangaPraia, 10, 5);
 
 var users = [userBoranga];
 console.log(userBoranga);
 userBoranga.addHome(homeBorangaPraia);
 console.log(userBoranga);
+userBoranga.addTransaction(dogNaPraia);
+userLukita.addTransaction(dogNaPraia);
+console.log(userLukita.ownerHistory[0]);
 
