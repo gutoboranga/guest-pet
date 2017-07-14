@@ -78,18 +78,17 @@ ListController.prototype = {
     
     for (var i = 0; i < users.length; i++) {
       // se for host e da mesma cidade
-			if (users[i].isHostUser && users[i].adress.city == this.view.elements.city.val()) {
+			if (users[i].isHostUser) {
         // procura nas residências dele se tem alguma com capacidade
         for (var j = 0; j < users.length; j++) {
           var home = users[i].homes[j];
-          if (home.isAvailable()) {
+          var searcherCity = this.view.elements.city.val();
+          
+          if (home.isAvailable() && home.adress.city == searcherCity) {
             found.push(users[i]);
           }
         }
-          if (users)
-      } && users[i].adress.city == this.view.elements.city.val()) {
-				found.push(users[i]);
-			}
+      }
 		}
 			
 		this.view.model.list = found;

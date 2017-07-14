@@ -2,6 +2,7 @@ function OwnerView() {
   this.elements = {
     'buttonId' : $('#buttonId'),
     'searchHostContainer' : $('#searchHostContainer'),
+    'managePetsContainer' : $('#managePetsContainer'),
     'ownerHistoryContainer' : $('#ownerHistoryContainer'),
   };
   
@@ -30,31 +31,41 @@ OwnerView.prototype = {
     });
   },
   
-  show: function (element) {
+  render: function (element, hasOwnerContent) {
     var _this = this;
-    var content = "";
     
-    $.get("../templates/owner.html", function(template) {
-      element.html(template);
+    if (hasOwnerContent) {
+      var content = "";
       
-      $.get("../templates/searchHosts.html", function(searchComponent) {
-        $('#searchHostContainer').html(searchComponent)
+      $.get("../templates/owner.html", function(template) {
+        element.html(template);
+        
+        $.get("../templates/searchHosts.html", function(searchComponent) {
+          $('#searchHostContainer').html(searchComponent)
+        });
+        
+        $.get("../templates/managePets.html", function(managePetsComponent) {
+          $('#managePetsContainer').html(managePetsComponent)
+        });
+        
+        $.get("../templates/ownerHistory.html", function(historyComponent) {
+          $('#ownerHistoryContainer').html(historyComponent)
+        });
+        
+        _this.resetElements();
       });
       
-      $.get("../templates/managePets.html", function(managePetsComponent) {
-        $('#managePetsContainer').html(managePetsComponent)
+    } else {
+      $.get("../templates/mode-not-available.html", function(template) {
+        element.html(template);
+        _this.resetElements();
       });
-      
-      $.get("../templates/ownerHistory.html", function(historyComponent) {
-        $('#ownerHistoryContainer').html(historyComponent)
-      });
-      
-      _this.resetElements();
-    });
+    }
   }
 };
 
-function OwnerController(view) {
+function OwnerController(user, view) {
+    this.user = user;
     this.view = view;
     var _this = this;
     
@@ -66,5 +77,9 @@ function OwnerController(view) {
 OwnerController.prototype = {
   printSomething: function () {
     console.log("something");
+  },
+  
+  render: function (element) {
+    this.view.render(element, this.user.isOwnerUser);
   }
 };

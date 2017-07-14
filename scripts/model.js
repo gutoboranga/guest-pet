@@ -1,8 +1,11 @@
+// import {UserMode} from "enums";
+
 class User {
-	constructor(nome, email, senha, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
-		this.nome = nome;
+	constructor(name, email, senha, city, birthDate, isHostUser, isOwnerUser, isFiscalUser) {
+		this.name = name;
 		this.email = email;
 		this.senha = senha;
+		this.city = city;
 		this.birthDate = birthDate;
 		
 		this.isHostUser = isHostUser;
@@ -20,9 +23,13 @@ class User {
 		this.hostPoints = [];
 	}
     
-    addHome(home) {
-        this.homes.push(home);
-    };
+	addPet(pet) {
+		this.pets.push(pet);
+	}
+		
+  addHome(home) {
+    this.homes.push(home);
+  }
 }
 
 class Pet {
@@ -64,21 +71,24 @@ class Adress {
 
 var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Brasil");
 
-var userLukita = new User("Lukita", "lukita@hotmail.com", "123deoliveira4", "Canoas", "17/07/94", 0, 1, 0);
+var userLukita = new User("Lukita", "lukita@hotmail.com", "123deoliveira4", "Canoas", "17/07/94", false, true, false);
 var dogLukita = new Pet("Dog", "Cachorro", "Pequeno", "Alterado", "aaaaa", "2015");
+userLukita.addPet(dogLukita);
 
 var userBoranga = new User("Boranga", "boranguinha@yahoo.com", "12345", "Porto Alegre", "18/07/96", 1, 0, 0);
 var adressBoranguinhaPoa = new Adress("Av Venancio Aires", 281, "Porto Alegre", "RS", "Brasil");
 var adressboranguinhaPraia = new Adress("Av Praia", 999, "Capão da Canoa", "RS", "Brasil");
 var homeBorangaPoa = new Home("Baia", adressBoranguinhaPoa, [], 1, "Apê em poa");
 var homeBorangaPraia = new Home("Prainha", adressboranguinhaPraia, [], 5, "Só animais marinhos");
+userBoranga.addHome(homeBorangaPraia);
+userBoranga.addHome(homeBorangaPoa);
+
+// console.log(userBoranga);
+// console.log(userLukita);
 
 //var boranga = new User("Baranga", "baranguinha@yahoo", "12345", "porto alegre");
 //var pimenta = new User("Little Pepper", "pimentinha@bol", "54321", "porto alegre");
 //var flach = new User("Armless John", "mcflachinho@rnf", "roller", "roller city");
 
-var users = [userBoranga];
-console.log(userBoranga);
-userBoranga.addHome(homeBorangaPraia);
-console.log(userBoranga);
-
+var users = [userBoranga, userLukita];
+// console.log(users);

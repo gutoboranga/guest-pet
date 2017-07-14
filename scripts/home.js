@@ -27,8 +27,8 @@ HomeView.prototype = {
     unselected.attr("class", "user-mode");
   },
   
-  setContent: function (container) {
-    container.show(this.elements.contentBody);
+  setContent: function (subController) {
+    subController.render(this.elements.contentBody);
   }
 };
 
@@ -52,9 +52,13 @@ function HomeController(user, view, ownerController, hostController) {
     
     // no futuro aqui podemos checar qual o tipo do usuário pra iniciar mostrando a view certa.
     // por enquanto mostra owner direto
-    this.currentMode = OWNER;
-    this.view.setContent(ownerController.view);
-    this.view.setOptionsClass(this.view.elements.ownerButton, this.view.elements.hostButton);
+    if (this.user.isOwnerUser) {
+      this.view.setContent(ownerController);
+      this.view.setOptionsClass(this.view.elements.ownerButton, this.view.elements.hostButton);
+    } else {
+      this.view.setContent(hostController);
+      this.view.setOptionsClass(this.view.elements.hostButton, this.view.elements.ownerButton);
+    }
 }
 
 HomeController.prototype = {
@@ -64,10 +68,10 @@ HomeController.prototype = {
   
   switchUser: function (targetMode) {
     if (targetMode == OWNER) {
-      this.view.setContent(this.ownerController.view);
+      this.view.setContent(this.ownerController);
       this.view.setOptionsClass(this.view.elements.ownerButton, this.view.elements.hostButton);
     } else {
-      this.view.setContent(this.hostController.view);
+      this.view.setContent(this.hostController);
       this.view.setOptionsClass(this.view.elements.hostButton, this.view.elements.ownerButton);
     }
   }
@@ -80,14 +84,15 @@ $(function () {
       'hostButton' : $('#hostButton'),
       'contentBody' : $('#contentBody')
     });
+    
     //just for test:
     var user = users[0];
     
     var ownerView = new OwnerView();
-    var ownerController = new OwnerController(ownerView);
+    var ownerController = new OwnerController(user, ownerView);
     
     var hostView = new HostView();
-    var hostController = new HostController(hostView);
+    var hostController = new HostController(user, hostView);
     
     var controller = new HomeController(user, view, ownerController, hostController);
 });
