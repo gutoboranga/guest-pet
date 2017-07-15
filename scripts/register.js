@@ -1,6 +1,4 @@
-/*
- * View
- */
+
 function RegisterView(elements) {
     this.elements = elements;
 
@@ -165,18 +163,18 @@ RegisterController.prototype = {
 };
 
 $(function () {
-    var view = new RegisterView({
-      'nameField' : $('#nameField'),
-      'nameError' : $('#nameError'),
-      'emailField' : $('#emailField'),
-      'emailError' : $('#emailError'),
-      'cityField' : $('#cityField'),
-      'cityError' : $('#cityError'),
-      'passwordField' : $('#passwordField'),
-      'passwordError' : $('#passwordError'),
-      'confirmPasswordField' : $('#confirmPasswordField'),
-      'registerButton' : $('#registerButton'),
-      'closeButton' : $('#closeButton')
-    });
-    var controller = new RegisterController(view);
+  var view = new RegisterView({
+    'nameField' : $('#nameField'),
+    'nameError' : $('#nameError'),
+    'emailField' : $('#emailField'),
+    'emailError' : $('#emailError'),
+    'cityField' : $('#cityField'),
+    'cityError' : $('#cityError'),
+    'passwordField' : $('#passwordField'),
+    'passwordError' : $('#passwordError'),
+    'confirmPasswordField' : $('#confirmPasswordField'),
+    'registerButton' : $('#registerButton'),
+    'closeButton' : $('#closeButton')
+  });
+  var controller = new RegisterController(view);
 });

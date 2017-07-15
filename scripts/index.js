@@ -1,10 +1,26 @@
+function hasUserInCookies() {
+  var i = 0;
+  var cookie = document.cookie;
+  var found = false;
+  console.log("testando se tem cookies");
+  console.log(cookie);
+  while (i < users.length) {
+    console.log(users[i].name);
+    if (cookie == users[i].name) {
+      console.log("achei: " + users[i].name);
+      found = true;
+    }
+    i++;
+  }
+  return found;
+}
+
 /*
  * View: Responsável por mostrar coisas e pela interação do usuário (que disparam eventos)
  */
 function IndexView(elements) {
     this.elements = elements;
     
-    this.homeButtonClicked = new Event(this);
     this.aboutButtonClicked = new Event(this);
     this.registerButtonClicked = new Event(this);
     this.loginButtonClicked = new Event(this);
@@ -17,9 +33,6 @@ function IndexView(elements) {
     // Ao clicar no botão home, por exemplo, dispara uma notificação, que é
     // escutada pelo Controller, que tomará as ações necessárias
     //
-    this.elements.homeButton.click(function () {
-        _this.homeButtonClicked.notify();
-    });
     this.elements.aboutButton.click(function () {
         _this.aboutButtonClicked.notify();
     });
@@ -46,21 +59,19 @@ function IndexController(view) {
     var _this = this;
     
     // Eventos da View para os quais a Controller vai executar uma ação em resposta
-    _this.view.homeButtonClicked.attach(function (sender, args) {
-        console.log("will go home");
-        _this.goToPage("home");
-    });
     _this.view.aboutButtonClicked.attach(function (sender, args) {
-        console.log("will go about");
         _this.goToPage("about");
     });
     _this.view.registerButtonClicked.attach(function (sender, args) {
-        console.log("will go register");
         _this.goToPage("register");
     });
     _this.view.loginButtonClicked.attach(function (sender, args) {
-        console.log("will go login");
-        _this.goToPage("login");
+        var destinationPage = "login";
+        
+        if (hasUserInCookies()) {
+          destinationPage = "home";
+        }
+        _this.goToPage(destinationPage);
     });
 }
 
@@ -82,7 +93,6 @@ IndexController.prototype = {
 
 $(function () {
     var view = new IndexView({
-      'homeButton' : $('#homeButton'),
       'aboutButton' : $('#aboutButton'),
       'registerButton' : $('#registerButton'),
       'loginButton' : $('#loginButton')

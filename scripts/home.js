@@ -2,7 +2,6 @@ const OWNER = 0;
 const HOST = 1;
 
 function findUser() {
-
   var i = 0;
   var cookie = document.cookie;
 
@@ -12,6 +11,7 @@ function findUser() {
     }
     i++;
   }
+  return undefined;
 }
 
 function HomeView(elements) {
@@ -93,21 +93,24 @@ HomeController.prototype = {
 };
 
 $(function () {
-    var view = new HomeView({
-      'logoutButton' : $('#logoutButton'),
-      'ownerButton' : $('#ownerButton'),
-      'hostButton' : $('#hostButton'),
-      'contentBody' : $('#contentBody')
-    });
-
-    //just for test:
     var user = findUser();
+    
+    if (user == undefined) {
+      location.replace("../templates/index.html");
+    } else {
+      var view = new HomeView({
+        'logoutButton' : $('#logoutButton'),
+        'ownerButton' : $('#ownerButton'),
+        'hostButton' : $('#hostButton'),
+        'contentBody' : $('#contentBody')
+      });
 
-    var ownerView = new OwnerView();
-    var ownerController = new OwnerController(user, ownerView);
+      var ownerView = new OwnerView();
+      var ownerController = new OwnerController(user, ownerView);
 
-    var hostView = new HostView();
-    var hostController = new HostController(user, hostView);
+      var hostView = new HostView();
+      var hostController = new HostController(user, hostView);
 
-    var controller = new HomeController(user, view, ownerController, hostController);
+      var controller = new HomeController(user, view, ownerController, hostController);
+    }
 });
