@@ -57,7 +57,8 @@ OwnerView.prototype = {
       
     } else {
       $.get("../templates/mode-not-available.html", function(template) {
-        element.html(template);
+        element.html('<h1>Owner</h1>');
+        element.append(template);
         _this.resetElements();
       });
     }

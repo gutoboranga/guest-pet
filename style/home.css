@@ -3,8 +3,8 @@ body {
 }
 
 .content-body {
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 h1 {
@@ -26,7 +26,7 @@ h3 {
   font-size: 20px;
   font-weight: 300;
   color: #777;
-  margin: 0;
+  margin-top: 15px;
 }
 
 .user-modes-container {

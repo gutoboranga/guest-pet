@@ -21,6 +21,7 @@ class User {
 		this.homes = [];
 		this.hostHistory = [];
 		this.hostPoints = [];
+		this.pending = [];
 	}
 
     addPet(pet) {
@@ -31,7 +32,7 @@ class User {
     }
 
     addTransaction(transaction) {
-        if (this == transaction.ownerEmail) {
+        if (this.email == transaction.ownerEmail) {
             this.ownerHistory.push(transaction);
         }
 
@@ -39,6 +40,10 @@ class User {
             this.hostHistory.push(transaction);
         }
     }
+		
+		addPending() {
+			
+		}
 }
 
 class Pet {
@@ -107,6 +112,22 @@ class Date {
 		toStr() {
 			return this.day + "/" + this.month + "/" + this.year;
 		}
+}
+
+// Estados de uma pendência:
+// Obs.: só quando estiver COMPLETED, vai virar uma transação e aparecer no histórico
+
+const WAITING_ANSWER = 0;
+const HOST_WAITING_FOR_PET = 1;
+const PET_IN_HOSTAGE = 2;
+const OWNER_WAITING_FOR_PET_DEVOLUTION = 3;
+const COMPLETED = 3;
+
+class Pendency {
+	constructor(transaction, status) {
+		this.transaction = transaction;
+		this.status = status;
+	}
 }
 
 var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Brasil");
