@@ -1,25 +1,20 @@
 function HostView() {
   this.elements = {
-    'buttonId' : $('#buttonId'),
-    'hostHistoryContainer' : $('#hostHistoryContainer'),
-    'manageHomesContainer' : $('#manageHomesContainer')
+    'hostRecentActivityContainer' : $('#hostRecentActivityContainer'),
+    'manageHomesContainer' : $('#manageHomesContainer'),
+    'hostHistoryContainer' : $('#hostHistoryContainer')
   };
   
   var _this = this;
-  
-  this.buttonIdClicked = new Event(this);
-  
-  this.elements.buttonId.click(function (e) {
-    _this.buttonIdClicked.notify();
-  });
 }
 
 HostView.prototype = {
   // esta função refaz o link entre os elementos do html e as ações
   resetElements: function () {
     this.elements = {
-      'hostHistoryContainer' : $('#hostHistoryContainer'),
-      'manageHomesContainer' : $('#manageHomesContainer')
+      'hostRecentActivityContainer' : $('#hostRecentActivityContainer'),
+      'manageHomesContainer' : $('#manageHomesContainer'),
+      'hostHistoryContainer' : $('#hostHistoryContainer')
     };
   },
   
@@ -31,6 +26,10 @@ HostView.prototype = {
       
       $.get("../templates/host.html", function(template) {
         element.html(template);
+        
+        $.get("../templates/HostRecentActivity.html", function(recentActivity) {
+          $('#hostRecentActivityContainer').html(recentActivity)
+        });
         
         $.get("../templates/manageHomes.html", function(manageHomesComponent) {
           $('#manageHomesContainer').html(manageHomesComponent)
