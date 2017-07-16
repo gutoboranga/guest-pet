@@ -164,6 +164,7 @@ RegisterController.prototype = {
         isFiscalUser
       );
       
+      // BANCO_DE_DADOS
       // USER CRIADO, SÓ FALTA BOTAR NO BD
       
       window.location.replace("../templates/home.html");

@@ -33,6 +33,34 @@ function ListView(model, elements) {
     this.ownerBoxClicked = new Event(this);
     this.hostBoxClicked = new Event(this);
 
+    var ul = document.getElementById('list');
+    
+    ul.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      if (target.type != "submit") {
+        return;
+      }
+      
+      var newStatus = target.id;
+      var index = target.id;
+      
+      while (target && target.parentNode !== ul) {
+          target = target.parentNode;
+          if(!target) { return; }
+      }
+      if (target.tagName === 'LI'){
+          console.log(_this.model.list[index]);
+          var home = _this.model.list[index];
+          var message = 'Tem certeza que deseja solicitar a residência ' + home.name + '?';
+          
+          if (confirm(message)) {
+            console.log("ele quer mesmo");
+            // BANCO_DE_DADOS:
+            // - criar pendência e adicionar no array pending de ambos users host and owner
+          }
+      }
+    });
 
 }
 
@@ -58,12 +86,13 @@ ListView.prototype = {
       			var info = '<p>' + found[i].name + '<br/>' + found[i].adress.city + '<br/>'
              + found[i].currentOccupation + '/' + found[i].capacity + '<br/>'
              + found[i].description + '<br/>' + 'R$' + found[i].value + '/dia </p>';
-      			list.append($('<li>' + image + info + '</li>'));
+            var button = '<button id="' + i + '">Solicitar residência</button>';
+      			list.append($('<li>' + image + info + button + '</li>'));
           }
         }
 
         else {
-          list.append($('<li class="searchResult">Nenhuma residência disponíveis</li>'));
+          list.append($('<li class="searchResult">Nenhuma residência disponível</li>'));
         }
     }
 };
