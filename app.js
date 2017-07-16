@@ -3,12 +3,8 @@ var app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-app.use(express.static(__dirname + '/templates'));
-app.use(express.static(__dirname + '/scripts'));
-
-console.log('capivaras verdes');
-console.log(__dirname + '/templates');
-console.log(__dirname + '/scripts');
+// app.use(express.static(__dirname + '/templates'));
+app.use(express.static(__dirname + '/'));
 
 app.get('/', function(request, response) {
   response.render('templates/index.html');
