@@ -1,0 +1,23 @@
+{
+  "name": "guest-pet",
+  "version": "1.0.0",
+  "description": "A simple website",
+  "engines": {
+    "node": "8.1.4"
+  },
+  "main": "scripts/index.js",
+  "scripts": {
+    "start": "node scripts/index.js"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gutoBoranga/guest-pet"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}

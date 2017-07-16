@@ -1,0 +1,7 @@
+{
+  "name": "GuestPet",
+  "description": "A barebones Node.js app using Express 4",
+  "repository": "https://github.com/gutoBoranga/guest-pet",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}
