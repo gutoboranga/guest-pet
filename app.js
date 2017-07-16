@@ -3,11 +3,10 @@ var app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-app.use(express.static('templates'));
-app.use(express.static('style'));
-app.use(express.static('scripts'));
-app.use(express.static('images'));
-app.use(express.static('model'));
+app.set('templates', __dirname + '/templates');
+app.set('templates', __dirname + '/scripts');
+app.set('templates', __dirname + '/style');
+// app.use(express.static(__dirname + '/style'));
 
 app.get('/', function(request, response) {
   response.render('templates/index.html');
