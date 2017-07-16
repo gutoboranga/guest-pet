@@ -27,7 +27,7 @@ HostView.prototype = {
       $.get("../templates/host.html", function(template) {
         element.html(template);
         
-        $.get("../templates/HostRecentActivity.html", function(recentActivity) {
+        $.get("../templates/hostRecentActivity.html", function(recentActivity) {
           $('#hostRecentActivityContainer').html(recentActivity)
         });
         
