@@ -31,8 +31,7 @@ class User {
     }
 
     addTransaction(transaction) {
-
-        if (this == transaction.owner) {
+        if (this == transaction.ownerEmail) {
             this.ownerHistory.push(transaction);
         }
 
@@ -48,7 +47,7 @@ class Pet {
 		this.species = species;
 		this.size = size;
 		this.nature = nature;
-        this.state = 0; // 0 É EM CASA
+    this.state = 0; // 0 É EM CASA
 		this.birthDate = birthDate || 0;
 		this.photo = photo;
 	}
@@ -81,14 +80,33 @@ class Adress {
 }
 
 class Transaction {
-    constructor(owner, host, pet, home, period, value) {
-        this.owner = owner;
-        this.host = host;
+    constructor(ownerEmail, hostEmail, pet, home, period, value) {
+        this.ownerEmail = ownerEmail;
+        this.hostEmail = hostEmail;
         this.pet = pet;
         this.home = home;
         this.period = period;
         this.value = value;
     }
+}
+
+class Period {
+		constructor(initialDate, finalDate) {
+				this.initialDate = initialDate;
+				this.finalDate = finalDate;
+		}
+}
+
+class Date {
+		constructor(day, month, year) {
+				this.day = day;
+				this.month = month;
+				this.year = year;
+		}
+		
+		toStr() {
+			return this.day + "/" + this.month + "/" + this.year;
+		}
 }
 
 var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Brasil");
@@ -115,9 +133,22 @@ userJoao.addHome(homeJoao);
 // console.log(userBoranga);
 // console.log(userLukita);
 
-var dogNaPraia = new Transaction(userLukita, userBoranga, dogLukita, homeBorangaPraia, 10, 5);
+var period = new Period(
+	new Date(1,3,2017),
+	new Date(1,4,2017)
+)
+
+var dogNaPraia = new Transaction(userLukita.email, userBoranga.email, dogLukita, homeBorangaPraia, period, 5);
+var dogNaCidade = new Transaction(userLukita.email, userBoranga.email, iguanaLukita, homeBorangaPoa, period, 500);
+
+userBoranga.addTransaction(dogNaPraia);
+userLukita.addTransaction(dogNaPraia);
+
+userBoranga.addTransaction(dogNaCidade);
+userLukita.addTransaction(dogNaCidade);
 
 var users = [userBoranga, userLukita, userJoao];
+console.log(users);
 // console.log(userBoranga);
 // userBoranga.addHome(homeBorangaPraia);
 // console.log(userBoranga);

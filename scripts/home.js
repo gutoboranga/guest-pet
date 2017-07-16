@@ -98,6 +98,7 @@ $(function () {
     if (user == undefined) {
       location.replace("../templates/index.html");
     } else {
+      
       var view = new HomeView({
         'logoutButton' : $('#logoutButton'),
         'ownerButton' : $('#ownerButton'),

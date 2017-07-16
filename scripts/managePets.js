@@ -41,7 +41,6 @@ ManagePetsView.prototype = {
         var nature = pets[i].nature + '<br/>'
         
         list.append($('<li>' + image + '<p>' + name + species + nature + '</p></li>'));
-        console.log(list);
       }
     } else {
       var message = 'Você ainda não possui nenhum pet cadastrado.<br>Utilize o botão Adicionar pra cadastrar novos pets.';
