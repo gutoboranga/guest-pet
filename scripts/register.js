@@ -126,34 +126,47 @@ RegisterController.prototype = {
     this.view.setText(passwordError, "A senha deve ter mais de 5 caracteres");
 		return 0;
   },
+  
+  checkUserModeCheckbox: function () {
+    if (this.view.elements.isOwnerCheckbox.is(':checked') ||
+        this.view.elements.isHostCheckbox.is(':checked')) {
+        this.view.setText(this.view.elements.checkBoxError, "");
+        this.view.setVisible(this.view.elements.checkBoxError, true);
+        return 1;
+      } else {
+        this.view.setText(this.view.elements.checkBoxError, "Selecione ao menos 1 dos modos de usuário.");
+        this.view.setVisible(this.view.elements.checkBoxError, true);
+        return 0;
+      }
+  },
 
   registerUser: function () {
   	
-    if (this.checkName() && this.checkEmail() && this.checkCity() && this.checkPasswordLength() && this.checkPasswordConsistency()) {
-      
+    if (this.checkName() && this.checkEmail() && this.checkCity() && this.checkUserModeCheckbox() && this.checkPasswordLength() && this.checkPasswordConsistency()) {
       var name = this.view.elements.nameField.val();
       var email = this.view.elements.emailField.val();
       var city = this.view.elements.cityField.val();
       var password = this.view.elements.passwordField.val();
+      var birthDate = "00/00/00";
+      var isHostUser = this.view.elements.passwordField.val();
+      var isOwnerUser = this.view.elements.isOwnerCheckbox.is(':checked');
+      var isHostUser = this.view.elements.isHostCheckbox.is(':checked');
+      var isFiscalUser = false;
     
   		var user = new User(
         name,
         email,
         password,
-        city
-      );
-    
-  		var blob = new Blob(
-        [
-          name,
-          password
-        ],
-        
-        { type: "text/plain;charset=utf-8" }
+        city,
+        birthDate,
+        isHostUser,
+        isOwnerUser,
+        isFiscalUser
       );
       
-      window.location.replace("../templates/searchHosts.html");
-  		saveAs(blob, "registro.txt");
+      // USER CRIADO, SÓ FALTA BOTAR NO BD
+      
+      window.location.replace("../templates/home.html");
     }
   },
 
@@ -173,6 +186,10 @@ $(function () {
     'passwordField' : $('#passwordField'),
     'passwordError' : $('#passwordError'),
     'confirmPasswordField' : $('#confirmPasswordField'),
+    'isOwnerCheckbox' : $('#isOwnerCheckbox'),
+    'isHostCheckbox' : $('#isHostCheckbox'),
+    'checkBoxError' : $('#checkBoxError'),
+    'cityError' : $('#cityError'),
     'registerButton' : $('#registerButton'),
     'closeButton' : $('#closeButton')
   });
