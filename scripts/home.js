@@ -1,6 +1,3 @@
-const OWNER = 0;
-const HOST = 1;
-
 function findUser() {
   var i = 0;
   var cookie = document.cookie;

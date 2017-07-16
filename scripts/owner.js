@@ -2,6 +2,7 @@ function OwnerView() {
   this.elements = {
     'buttonId' : $('#buttonId'),
     'searchHostContainer' : $('#searchHostContainer'),
+    'ownerRecentActivityContainer' : $('#ownerRecentActivityContainer'),
     'managePetsContainer' : $('#managePetsContainer'),
     'ownerHistoryContainer' : $('#ownerHistoryContainer'),
   };
@@ -21,6 +22,7 @@ OwnerView.prototype = {
     this.elements = {
       'buttonId' : $('#buttonId'),
       'searchHostContainer' : $('#searchHostContainer'),
+      'ownerRecentActivityContainer' : $('#ownerRecentActivityContainer'),
       'managePetsContainer' : $('#managePetsContainer'),
       'ownerHistoryContainer' : $('#ownerHistoryContainer'),
     };
@@ -42,6 +44,10 @@ OwnerView.prototype = {
         
         $.get("../templates/searchHosts.html", function(searchComponent) {
           $('#searchHostContainer').html(searchComponent)
+        });
+        
+        $.get("../templates/ownerRecentActivity.html", function(recentActivity) {
+          $('#ownerRecentActivityContainer').html(recentActivity)
         });
         
         $.get("../templates/managePets.html", function(managePetsComponent) {

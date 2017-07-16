@@ -16,12 +16,13 @@ class User {
 		this.pets = [];
 		this.ownerHistory = [];
 		this.ownerPoints = [];
+		this.ownerPending = [];
 
 		// host attributes
 		this.homes = [];
 		this.hostHistory = [];
 		this.hostPoints = [];
-		this.pending = [];
+		this.hostPending = [];
 	}
 
     addPet(pet) {
@@ -41,8 +42,14 @@ class User {
         }
     }
 		
-		addPending() {
-			
+		addPending(pendency) {
+			if (this.email == pendency.transaction.ownerEmail) {
+					this.ownerPending.push(pendency);
+			}
+
+			else {
+					this.hostPending.push(pendency);
+			}
 		}
 }
 
@@ -117,16 +124,97 @@ class Date {
 // Estados de uma pendência:
 // Obs.: só quando estiver COMPLETED, vai virar uma transação e aparecer no histórico
 
-const WAITING_ANSWER = 0;
-const HOST_WAITING_FOR_PET = 1;
-const PET_IN_HOSTAGE = 2;
-const OWNER_WAITING_FOR_PET_DEVOLUTION = 3;
-const COMPLETED = 3;
+const WAITING_HOST_ANSWER = 0;
+const HOST_DECLINED = 1;
+const HOST_ACCEPTED_AND_IS_WAITING_FOR_PET = 2;
+const PET_IN_HOSTAGE = 3;
+const OWNER_WAITING_FOR_PET_DEVOLUTION = 4;
+const COMPLETED = 5;
+
+const OWNER = 0;
+const HOST = 1;
 
 class Pendency {
 	constructor(transaction, status) {
 		this.transaction = transaction;
 		this.status = status;
+	}
+	
+	message(mode) {
+		if (mode == OWNER) {
+			switch (this.status) {
+				case WAITING_HOST_ANSWER:
+					return "Aguardando resposta do host.";
+					break;
+				case HOST_DECLINED:
+					return "O host rejeitou sua proposta.";
+					break;
+				case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
+					return "O host está aguardando seu pet.";
+					break;
+				case PET_IN_HOSTAGE:
+					return "Pet está hospedado.";
+					break;
+				case OWNER_WAITING_FOR_PET_DEVOLUTION:
+					return "Busque seu pet na residência da hospedagem.";
+					break;
+				case COMPLETED:
+					return "Transação concluída";
+					break;
+				default:
+					return "";
+			}
+		} else {
+			switch (this.status) {
+				case WAITING_HOST_ANSWER:
+					return "O owner está aguardando sua resposta.";
+					break;
+				case HOST_DECLINED:
+					return "Você rejeitou a proposta.";
+					break;
+				case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
+					return "Aguardando o owner lhe entregar o pet. Já entregou?";
+					break;
+				case PET_IN_HOSTAGE:
+					return "Pet está hospedado.";
+					break;
+				case OWNER_WAITING_FOR_PET_DEVOLUTION:
+					return "Devolva o pet para o dono.";
+					break;
+				case COMPLETED:
+					return "Transação concluída";
+					break;
+				default:
+					return "";
+			}
+		}
+	}
+	
+	actions(mode) {
+		if (mode == OWNER) {
+			switch (this.status) {
+				case OWNER_WAITING_FOR_PET_DEVOLUTION:
+					return '<button id="5">Confirmar recebimento do pet</button>';
+					break;
+				default:
+					return '';
+			}
+		} else {
+			switch (this.status) {
+				case WAITING_HOST_ANSWER:
+					return '<button id="2">Aceitar</button><button id="1">Rejeitar</button>';
+					break;
+				case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
+					return '<button id="3">Confirmar recebimento do pet</button>';
+					break;
+				default:
+					return '';
+			}
+		}
+	}
+	
+	setStatus(newStatus) {
+		this.status = newStatus;
 	}
 }
 
@@ -162,11 +250,20 @@ var period = new Period(
 var dogNaPraia = new Transaction(userLukita.email, userBoranga.email, dogLukita, homeBorangaPraia, period, 5);
 var dogNaCidade = new Transaction(userLukita.email, userBoranga.email, iguanaLukita, homeBorangaPoa, period, 500);
 
-userBoranga.addTransaction(dogNaPraia);
-userLukita.addTransaction(dogNaPraia);
+// userBoranga.addTransaction(dogNaPraia);
+// userLukita.addTransaction(dogNaPraia);
+//
+// userBoranga.addTransaction(dogNaCidade);
+// userLukita.addTransaction(dogNaCidade);
 
-userBoranga.addTransaction(dogNaCidade);
-userLukita.addTransaction(dogNaCidade);
+var pendencyPraia = new Pendency(dogNaPraia, WAITING_HOST_ANSWER);
+var pendencyCidade = new Pendency(dogNaCidade, OWNER_WAITING_FOR_PET_DEVOLUTION);
+
+userLukita.addPending(pendencyPraia);
+userBoranga.addPending(pendencyPraia);
+
+userLukita.addPending(pendencyCidade);
+userBoranga.addPending(pendencyCidade);
 
 var users = [userBoranga, userLukita, userJoao];
 console.log(users);
