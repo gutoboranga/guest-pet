@@ -1,4 +1,4 @@
-function findUser() {
+function findUser(users) {
   
   var i = 0;
   var cookie = document.cookie;
@@ -75,8 +75,9 @@ CreateHomeController.prototype = {
   
 	createHome: function () {
     var name = this.view.elements.homeNameField.val();
-    var capacity = this.view.elements.homeCapacityField.val();
     var description = this.view.elements.homeDescriptionField.val();
+    var capacity = this.view.elements.homeCapacityField.val();
+    var value = this.view.elements.homeValueField.val();
     var street = this.view.elements.homeStreetField.val();
     var number = this.view.elements.homeNumberField.val();
     var city = this.view.elements.homeCityField.val();
@@ -84,18 +85,21 @@ CreateHomeController.prototype = {
     var country = this.view.elements.homeCountryField.val();
     
     if (this.isValid("nome", name, this.view.elements.homeNameFieldError)
-        && this.isValid("capacidade", capacity, this.view.elements.homeCapacityFieldError)
         && this.isValid("descrição", description, this.view.elements.homeDescriptionFieldError)
+        && this.isValid("capacidade", capacity, this.view.elements.homeCapacityFieldError)
+        && this.isValid("valor", value, this.view.elements.homeValueFieldError)
         && this.isValid("rua", street, this.view.elements.homeStreetFieldError)
         && this.isValid("número", number, this.view.elements.homeNumberFieldError)
         && this.isValid("cidade", city, this.view.elements.homeCityFieldError)
         && this.isValid("estado", state, this.view.elements.homeStateFieldError)
         && this.isValid("país", country, this.view.elements.homeCountryFieldError)) {
-          var adress = new Adress(street, number, city, state, country);
-          var home = new Home(name, adress, "photos", capacity, description);
           
-          this.user.addHome(home);
-          window.location.replace("../templates/home.html");
+          // var adress = new Adress(street, number, city, state, country);
+          var home = new Home(name, street, number, city, state, country, "photos", capacity, value, description, this.user._id);
+          
+          post('/home', home, 'POST');
+          
+          // window.location.replace("../templates/home.html");
     }
 	},
 
@@ -105,29 +109,35 @@ CreateHomeController.prototype = {
 };
 
 $(function () {
-  var createHomeView = new CreateHomeView({
-    'goBackButton' : $('goBackButton'),
-
-    'homeNameField' : $('#homeNameField'),
-    'homeCapacityField' : $('#homeCapacityField'),
-    'homeDescriptionField' : $('#homeDescriptionField'),
-    'homeStreetField' : $('#homeStreetField'),
-    'homeNumberField' : $('#homeNumberField'),
-    'homeCityField' : $('#homeCityField'),
-    'homeStateField' : $('#homeStateField'),
-    'homeCountryField' : $('#homeCountryField'),
-    'createHomeButton' : $('#createHomeButton'),
+  getUsers(function (result) {
+    var users = result;
+    var user = findUser(users);
     
-    'homeNameFieldError' : $('#homeNameFieldError'),
-    'homeCapacityFieldError' : $('#homeCapacityFieldError'),
-    'homeDescriptionFieldError' : $('#homeDescriptionFieldError'),
-    'homeStreetFieldError' : $('#homeStreetFieldError'),
-    'homeNumberFieldError' : $('#homeNumberFieldError'),
-    'homeCityFieldError' : $('#homeCityFieldError'),
-    'homeStateFieldError' : $('#homeStateFieldError'),
-    'homeCountryFieldError' : $('#homeCountryFieldError'),
+    var createHomeView = new CreateHomeView({
+      'goBackButton' : $('goBackButton'),
+
+      'homeNameField' : $('#homeNameField'),
+      'homeCapacityField' : $('#homeCapacityField'),
+      'homeValueField' : $('#homeValueField'),
+      'homeDescriptionField' : $('#homeDescriptionField'),
+      'homeStreetField' : $('#homeStreetField'),
+      'homeNumberField' : $('#homeNumberField'),
+      'homeCityField' : $('#homeCityField'),
+      'homeStateField' : $('#homeStateField'),
+      'homeCountryField' : $('#homeCountryField'),
+      'createHomeButton' : $('#createHomeButton'),
+      
+      'homeNameFieldError' : $('#homeNameFieldError'),
+      'homeCapacityFieldError' : $('#homeCapacityFieldError'),
+      'homeValueFieldError' : $('#homeValueFieldErro'),
+      'homeDescriptionFieldError' : $('#homeDescriptionFieldError'),
+      'homeStreetFieldError' : $('#homeStreetFieldError'),
+      'homeNumberFieldError' : $('#homeNumberFieldError'),
+      'homeCityFieldError' : $('#homeCityFieldError'),
+      'homeStateFieldError' : $('#homeStateFieldError'),
+      'homeCountryFieldError' : $('#homeCountryFieldError'),
+    });
+    
+    var createHomeController = new CreateHomeController(user, createHomeView);
   });
-  
-  var user = findUser();
-  var createHomeController = new CreateHomeController(user, createHomeView);
 });

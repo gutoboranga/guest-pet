@@ -1,4 +1,4 @@
-function findUser() {
+function findUser(users) {
   
   var i = 0;
   var cookie = document.cookie;
@@ -86,14 +86,17 @@ function OwnerRecentActivityController(user, view) {
 
 OwnerRecentActivityController.prototype = {};
 
-$(document).ready(function () {
-  var user = findUser();
-  
-  var view = new OwnerRecentActivityView({
-    'ownerRecentActivityList' : $('#ownerRecentActivityList'),
-    'ownerRecentActivity' : $('#ownerRecentActivity')
-  }, user.ownerPending);
-  
-  controller = new OwnerRecentActivityController(user, view);
-  controller.view.show();
+$(function () {
+  getUsers(function (result) {
+    var users = result;
+    var user = findUser(users);
+    
+    var view = new OwnerRecentActivityView({
+      'ownerRecentActivityList' : $('#ownerRecentActivityList'),
+      'ownerRecentActivity' : $('#ownerRecentActivity')
+    }, user.ownerPending);
+    
+    controller = new OwnerRecentActivityController(user, view);
+    controller.view.show();
+  });
 });

@@ -1,6 +1,6 @@
 // model
 
-function ListModel() {
+function ListModel(users) {
     this._list = [];
 }
 
@@ -57,7 +57,8 @@ ListView.prototype = {
  * The Controller. Controller responds to user actions and
  * invokes changes on the model.
  */
-function ListController(view) {
+function ListController(users, view) {
+    this.users = users;
     this.view = view;
 		this.list = [];
 
@@ -103,17 +104,21 @@ ListController.prototype = {
 		search: function () {
 		var found = [];
     // NO FUTURO DEVE PEGAR DO BANCO DE DADOS OS USERS COM ATRIBUTO isHostUser = true
-
-    for (var i = 0; i < users.length; i++) {
+    
+    console.log("searching host. all users:");
+    console.log(this.users);
+      
+    for (var i = 0; i < this.users.length; i++) {
       // se for host e da mesma cidade
-			if (users[i].isHostUser) {
+			if (this.users[i].isHostUser) {
+        console.log(this.users[i].name);
         // procura nas residências dele se tem alguma com capacidade
-        for (var j = 0; j < users[i].homes.length; j++) {
-          var home = users[i].homes[j];
+        for (var j = 0; j < this.users[i].homes.length; j++) {
+          var home = this.users[i].homes[j];
           var searcherCity = this.view.elements.city.val();
 
           if (home.isAvailable() && home.adress.city == searcherCity) {
-            found.push(users[i]);
+            found.push(this.users[i]);
           }
         }
       }
@@ -131,13 +136,17 @@ ListController.prototype = {
 };
 
 $(function () {
-				model = new ListModel();
-        view = new ListView(model, {
-						'searchButton' : $('#searchButton'),
-						'city'	:	$('#city'),
-            'list' : $('#list'),
-        });
-        controller = new ListController(view);
-		controller.search();
+  getUsers(function (result) {
+    var users = result;
+    
+    model = new ListModel();
+    view = new ListView(model, {
+        'searchButton' : $('#searchButton'),
+        'city'	:	$('#city'),
+        'list' : $('#list'),
+    });
+    controller = new ListController(users, view);
+    controller.search();
     view.show();
+  });
 });

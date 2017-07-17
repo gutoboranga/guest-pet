@@ -1,4 +1,4 @@
-function findUser() {
+function findUser(users) {
   
   var i = 0;
   var cookie = document.cookie;
@@ -53,14 +53,17 @@ function HostHistoryController(user, view) {
 
 HostHistoryController.prototype = {};
 
-$(document).ready(function () {
-  var view = new HostHistoryView({
-    'hostHistoryList' : $('#hostHistoryList'),
-    'hostHistory' : $('#hostHistory')
+$(function () {
+  getUsers(function (result) {
+    var users = result;
+    var user = findUser(users);
+    
+    var view = new HostHistoryView({
+      'hostHistoryList' : $('#hostHistoryList'),
+      'hostHistory' : $('#hostHistory')
+    });
+    
+    controller = new HostHistoryController(user, view);
+    controller.view.show(user.hostHistory);
   });
-  
-  var user = findUser();
-  
-  controller = new HostHistoryController(user, view);
-  controller.view.show(user.hostHistory);
 });

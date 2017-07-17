@@ -1,4 +1,4 @@
-function findUser() {
+function findUser(users) {
   var i = 0;
   var cookie = document.cookie;
 
@@ -90,7 +90,10 @@ HomeController.prototype = {
 };
 
 $(function () {
-    var user = findUser();
+  getUsers(function (result) {
+    var users = result;
+    
+    var user = findUser(users);
     
     if (user == undefined) {
       location.replace("../templates/index.html");
@@ -111,4 +114,5 @@ $(function () {
 
       var controller = new HomeController(user, view, ownerController, hostController);
     }
+  });
 });

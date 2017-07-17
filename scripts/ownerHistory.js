@@ -1,4 +1,4 @@
-function findUser() {
+function findUser(users) {
   
   var i = 0;
   var cookie = document.cookie;
@@ -53,14 +53,17 @@ function OwnerHistoryController(user, view) {
 
 OwnerHistoryController.prototype = {};
 
-$(document).ready(function () {
-  var view = new OwnerHistoryView({
-    'ownerHistoryList' : $('#ownerHistoryList'),
-    'ownerHistory' : $('#ownerHistory')
+$(function () {
+  getUsers(function (result) {
+    var users = result;
+    var user = findUser(users);
+    
+    var view = new OwnerHistoryView({
+      'ownerHistoryList' : $('#ownerHistoryList'),
+      'ownerHistory' : $('#ownerHistory')
+    });
+    
+    controller = new OwnerHistoryController(user, view);
+    controller.view.show(user.ownerHistory);
   });
-  
-  var user = findUser();
-  
-  controller = new OwnerHistoryController(user, view);
-  controller.view.show(user.ownerHistory);
 });

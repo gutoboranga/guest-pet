@@ -1,4 +1,4 @@
-function findUser() {
+function findUser(users) {
   
   var i = 0;
   var cookie = document.cookie;
@@ -22,6 +22,38 @@ function ManagePetsView(elements) {
   this.elements.addButton.click(function () {
       _this.addButtonClicked.notify();
   });
+  
+  var ul = document.getElementById('petsList');
+  
+  ul.addEventListener('click', function(e) {
+    var target = e.target;
+    
+    if (target.type != "submit") {
+      return;
+    }
+    
+    var petId = target.id;
+    
+    while (target && target.parentNode !== ul) {
+        target = target.parentNode;
+        if(!target) { return; }
+    }
+    
+    if (target.tagName === 'LI') {
+      var message = 'Tem certeza que deseja excluir este pet?';
+      
+      if (confirm(message)) {
+        
+        getPetForId(petId, function (pet) {
+          if (pet != undefined) {
+            del('/pet', pet, function () {
+              console.log("pet removido");
+            });
+            location.reload();
+          }
+        });
+      }
+    }});
 }
 
 ManagePetsView.prototype = {
@@ -40,7 +72,8 @@ ManagePetsView.prototype = {
         var species = pets[i].species + '<br/>'
         var nature = pets[i].nature + '<br/>'
         
-        list.append($('<li>' + image + '<p>' + name + species + nature + '</p></li>'));
+        console.log();
+        list.append($('<li>' + image + '<p>' + name + species + nature + '</p>' + '<button id="' + pets[i]._id +'">Excluir</button>' +  '</li>'));
       }
     } else {
       var message = 'Você ainda não possui nenhum pet cadastrado.<br>Utilize o botão Adicionar pra cadastrar novos pets.';
@@ -67,15 +100,22 @@ ManagePetsController.prototype = {
   }
 };
 
-$(document).ready(function () {
-  var view = new ManagePetsView({
-    'addButton'	:	$('#addButton'),
-    'petsListContainer' : $('#petsListContainer'),
-    'petsList' : $('#petsList')
+$(function () {
+  getUsers(function (result) {
+    var users = result;
+    
+    var view = new ManagePetsView({
+      'addButton'	:	$('#addButton'),
+      'petsListContainer' : $('#petsListContainer'),
+      'petsList' : $('#petsList')
+    });
+    
+    var user = findUser(users);
+    
+    getPetsForUserId(user._id, function (result) {
+      user.pets = result;
+      controller = new ManagePetsController(user, view);
+      controller.view.show(user.pets);
+    });
   });
-  
-  var user = findUser();
-  
-  controller = new ManagePetsController(user, view);
-  controller.view.show(user.pets);
 });

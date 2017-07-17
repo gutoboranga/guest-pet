@@ -1,13 +1,10 @@
-function hasUserInCookies() {
+function hasUserInCookies(users) {
   var i = 0;
   var cookie = document.cookie;
   var found = false;
-  console.log("testando se tem cookies");
-  console.log(cookie);
+
   while (i < users.length) {
-    console.log(users[i].name);
     if (cookie == users[i].name) {
-      console.log("achei: " + users[i].name);
       found = true;
     }
     i++;
@@ -54,7 +51,8 @@ IndexView.prototype = {};
 /*
  * Controller: Gerencia os eventos (manda na porra toda)
  */
-function IndexController(view) {
+function IndexController(users, view) {
+    this.users = users;
     this.view = view;
     var _this = this;
     
@@ -68,7 +66,7 @@ function IndexController(view) {
     _this.view.loginButtonClicked.attach(function (sender, args) {
         var destinationPage = "login";
         
-        if (hasUserInCookies()) {
+        if (hasUserInCookies(_this.users)) {
           destinationPage = "home";
         }
         _this.goToPage(destinationPage);
@@ -92,10 +90,15 @@ IndexController.prototype = {
 //
 
 $(function () {
+  getUsers(function (result) {
+    var users = result;
+    
     var view = new IndexView({
       'aboutButton' : $('#aboutButton'),
       'registerButton' : $('#registerButton'),
       'loginButton' : $('#loginButton')
     });
-    var controller = new IndexController(view);
+
+    var controller = new IndexController(users, view);
+  });
 });

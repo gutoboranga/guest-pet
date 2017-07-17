@@ -1,4 +1,4 @@
-function findUser() {
+function findUser(users) {
   
   var i = 0;
   var cookie = document.cookie;
@@ -89,10 +89,12 @@ CreatePetController.prototype = {
       this.view.setText(this.view.elements.petNatureFieldError, "Insira uma natureza válida");
     
     } else {
-      var pet = new Pet(name, species, size, nature, "photo", "01/01/01");
+      var pet = new Pet(name, species, size, nature, "photo", "01/01/01", this.user._id);
+      console.log(pet);
       
-      this.user.addPet(pet);
-      window.location.replace("../templates/home.html");
+      post('/pet', pet, 'POST');
+      
+      // window.location.replace("../templates/home.html");
     }
 	},
 
@@ -102,23 +104,27 @@ CreatePetController.prototype = {
 };
 
 $(function () {
-  var createPetView = new CreatePetView({
-    'goBackButton' : $('goBackButton'),
+  getUsers(function (result) {
+    var users = result;
+    var user = findUser(users);
     
-    'petNameField' : $('#petNameField'),
-    'petSpeciesField' : $('#petSpeciesField'),
-    'petSizeField' : $('#petSizeField'),
-    'petNatureField' : $('#petNatureField'),
-    'petBirthDateField' : $('#petBirthDateField'),
-    'createPetButton' : $('#createPetButton'),
+    var createPetView = new CreatePetView({
+      'goBackButton' : $('goBackButton'),
+      
+      'petNameField' : $('#petNameField'),
+      'petSpeciesField' : $('#petSpeciesField'),
+      'petSizeField' : $('#petSizeField'),
+      'petNatureField' : $('#petNatureField'),
+      'petBirthDateField' : $('#petBirthDateField'),
+      'createPetButton' : $('#createPetButton'),
+      
+      'petNameFieldError' : $('#petNameFieldError'),
+      'petSpeciesFieldError' : $('#petSpeciesFieldError'),
+      'petSizeFieldError' : $('#petSizeFieldError'),
+      'petNatureFieldError' : $('#petNatureFieldError'),
+      'petBirthDateFieldError' : $('#petBirthDateFieldError')
+    });
     
-    'petNameFieldError' : $('#petNameFieldError'),
-    'petSpeciesFieldError' : $('#petSpeciesFieldError'),
-    'petSizeFieldError' : $('#petSizeFieldError'),
-    'petNatureFieldError' : $('#petNatureFieldError'),
-    'petBirthDateFieldError' : $('#petBirthDateFieldError')
+    var createPetController = new CreatePetController(user, createPetView);
   });
-  
-  var user = findUser();
-  var createPetController = new CreatePetController(user, createPetView);
 });

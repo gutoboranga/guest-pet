@@ -35,7 +35,8 @@ LoginView.prototype = {
 /*
  * Controller
  */
-function LoginController(view) {
+function LoginController(users, view) {
+    this.users = users;
     this.view = view;
 
     var _this = this;
@@ -54,12 +55,12 @@ function LoginController(view) {
 LoginController.prototype = {
 
 	login: function () {
-
 		var found = 0;
 		var i = 0;
-
-		while (i < users.length && found == 0) {
-			if (users[i].name == this.view.elements.loginField.val()) {
+    
+		while (i < this.users.length && found == 0) {
+      console.log(this.users[i].name);
+			if (this.users[i].name == this.view.elements.loginField.val()) {
 				found = 1;
 			}
 			i++;
@@ -74,10 +75,10 @@ LoginController.prototype = {
 		else {	// achou
 
 			i--;	// corrige o i que foi a mais
-			if (users[i].password == this.view.elements.passwordField.val()) {	// senha ok
+			if (this.users[i].password == this.view.elements.passwordField.val()) {	// senha ok
 				this.view.setVisible(this.view.elements.userError, false);
 				this.view.setVisible(this.view.elements.passwordError, false);
-        document.cookie = users[i].name;
+        document.cookie = this.users[i].name;
 				window.location.replace("../templates/home.html");
 			}
 
@@ -93,17 +94,21 @@ LoginController.prototype = {
   goToRegisterScreen: function () {
 		window.location.replace("../templates/register.html");
 	}
-
 };
 
 $(function () {
+  getUsers(function (result) {
+    var users = result;
+    console.log(users);
+    
     var view = new LoginView({
       'loginField' : $('#loginField'),
       'userError' : $('#userError'),
       'passwordField' : $('#passwordField'),
-			'passwordError' : $('#passwordError'),
+      'passwordError' : $('#passwordError'),
       'loginButton' : $('#loginButton'),
       'registerButton' : $('#registerButton')
     });
-    var controller = new LoginController(view);
+    var controller = new LoginController(users, view);
+  });
 });
