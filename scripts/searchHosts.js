@@ -35,12 +35,14 @@ ListView.prototype = {
     		var list = this.elements.list;
     		list.html('');
 
+        // console.log(found);
+
         if (found.length > 0) {
       		for (var i = 0; i < found.length; i++) {
       			var image = '<img src="../images/guestPetLogo.png" class="profilePicture">';
       			var info = '<p>' + found[i].name + '<br/>' + found[i].city + '</p>';
             var button = 'id="button' + i + '"';
-            console.log(button);
+            // console.log(button);
       			list.append($('<li id="list">' + image + info + '<button type="button" ' + button + ' class="host-details-button">Ver detalhes</button>' + '</li>'));
           }
         } else {
@@ -102,33 +104,15 @@ ListController.prototype = {
 
 
 		search: function () {
-		var found = [];
-    // NO FUTURO DEVE PEGAR DO BANCO DE DADOS OS USERS COM ATRIBUTO isHostUser = true
-    
-    console.log("searching host. all users:");
-    console.log(this.users);
+  		var found = [];
+      var _this = this;
       
-    for (var i = 0; i < this.users.length; i++) {
-      // se for host e da mesma cidade
-			if (this.users[i].isHostUser) {
-        console.log(this.users[i].name);
-        // procura nas residências dele se tem alguma com capacidade
-        for (var j = 0; j < this.users[i].homes.length; j++) {
-          var home = this.users[i].homes[j];
-          var searcherCity = this.view.elements.city.val();
-
-          if (home.isAvailable() && home.adress.city == searcherCity) {
-            found.push(this.users[i]);
-          }
-        }
-      }
-		}
-
-		this.view.model.list = found;
-		this.view.rebuildList();
-    this.notifyResults();
-
-	},
+      getUsersWithAvailableHomesInCity(_this.view.elements.city.val(), function (result) {
+        _this.view.model.list = result;
+        _this.view.rebuildList();
+        _this.notifyResults();
+      });
+	   },
 
     updateSelected : function (index) {
         this._model.setSelectedIndex(index);
@@ -146,7 +130,7 @@ $(function () {
         'list' : $('#list'),
     });
     controller = new ListController(users, view);
-    controller.search();
-    view.show();
+    // controller.search();
+    // view.show();
   });
 });

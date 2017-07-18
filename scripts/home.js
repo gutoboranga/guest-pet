@@ -73,7 +73,7 @@ function HomeController(user, view, ownerController, hostController) {
 
 HomeController.prototype = {
   logout: function () {
-    console.log("will logout");
+    // console.log("will logout");
     document.cookie = this.user.name + '; expires=Thu, 01-Jan-70 00:00:01 GMT;';
     location.replace("../templates/index.html");
   },

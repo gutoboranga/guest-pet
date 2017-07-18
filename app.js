@@ -51,6 +51,23 @@ app.get('/homes', (req, res) => {
   });
 });
 
+app.get('/transactions', (req, res) => {
+  db.collection('transactions').find().toArray(function(err, results) {
+    if (err) { return console.log(err) }
+    res.send(results);
+  });
+});
+
+// app.get('/petForUserId', (req, res) => {
+//   db.collection('pets').find(
+//     {
+//       userId: ObjectId(req.body)
+//     }).toArray(function(err, results) {
+//     if (err) { return console.log(err) }
+//     res.send(results);
+//   });
+// });
+
 // POST methods
 
 app.post('/user', (req, res) => {
@@ -63,7 +80,7 @@ app.post('/user', (req, res) => {
 app.post('/pet', (req, res) => {
   db.collection('pets').save(req.body, (err, result) => {
     if (err) return console.log(err)
-    res.redirect('/');
+    res.send(result);
   });
 });
 
@@ -75,8 +92,38 @@ app.post('/home', (req, res) => {
   });
 });
 
+app.post('/transaction', (req, res) => {
+  console.log(req.body);
+  db.collection('transactions').save(req.body, (err, result) => {
+    if (err) return console.log(err)
+    res.send(result);
+  });
+});
+
 // PUT methods
 
+app.put('/transactionNewStatus', (req, res) => {
+  db.collection('transactions').update(
+    { _id: ObjectId(req.body.transactionId) },
+    {
+     $set: {
+       status: req.body.newStatus
+     }
+   });
+   res.send(undefined);
+});
+
+app.put('/userChangeMode', (req, res) => {
+  db.collection('users').update(
+    { _id: ObjectId(req.body.userId) },
+    {
+     $set: {
+       isOwnerUser: req.body.owner,
+       isHostUser: req.body.host,
+     }
+   });
+   res.send(undefined);
+});
 
 // DELETE methods
 

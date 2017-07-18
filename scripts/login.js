@@ -59,7 +59,7 @@ LoginController.prototype = {
 		var i = 0;
     
 		while (i < this.users.length && found == 0) {
-      console.log(this.users[i].name);
+      // console.log(this.users[i].name);
 			if (this.users[i].name == this.view.elements.loginField.val()) {
 				found = 1;
 			}
@@ -99,7 +99,7 @@ LoginController.prototype = {
 $(function () {
   getUsers(function (result) {
     var users = result;
-    console.log(users);
+    // console.log(users);
     
     var view = new LoginView({
       'loginField' : $('#loginField'),

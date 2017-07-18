@@ -47,9 +47,8 @@ function ManageHomesView(elements) {
         getHomeForId(homeId, function (home) {
           if (home != undefined) {
             del('/home', home, function () {
-              console.log("residência removida");
+              location.reload();
             });
-            location.reload();
           }
         });
       }
@@ -112,7 +111,7 @@ $(function () {
     
     getHomesForUserId(user._id, function (result) {
       user.homes = result;
-      console.log(result);
+      // console.log(result);
       controller = new ManageHomesController(user, view);
       controller.view.show(user.homes);
     });

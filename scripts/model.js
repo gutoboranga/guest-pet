@@ -42,16 +42,6 @@ class User {
         }
     }
 		
-		addPending(pendency) {
-			if (this.email == pendency.transaction.ownerEmail) {
-					this.ownerPending.push(pendency);
-			}
-
-			else {
-					this.hostPending.push(pendency);
-			}
-		}
-		
 		setAttributesFromJson(json) {
 			this._id = json._id;
 			
@@ -127,7 +117,7 @@ class Home {
 	}
 
 	isAvailable() {
-		return (this.capacity - this.currentOccupation) > 0;
+		return (this.capacity > this.currentOccupation);
 	}
 }
 
@@ -141,15 +131,126 @@ class Adress {
 	}
 }
 
+// Estados de uma transação:
+// Obs.: só quando estiver COMPLETED, vai aparecer no histórico
+
+const WAITING_HOST_ANSWER = 0;
+const HOST_DECLINED = 1;
+const HOST_ACCEPTED_AND_IS_WAITING_FOR_PET = 2;
+const PET_IN_HOSTAGE = 3;
+const OWNER_WAITING_FOR_PET_DEVOLUTION = 4;
+const COMPLETED = 5;
+
+const OWNER = 0;
+const HOST = 1;
+
 class Transaction {
-    constructor(ownerEmail, hostEmail, pet, home, period, value) {
-        this.ownerEmail = ownerEmail;
-        this.hostEmail = hostEmail;
-        this.pet = pet;
-        this.home = home;
-        this.period = period;
-        this.value = value;
+    constructor(status, initialDate, finalDate, value, petId, homeId, ownerId, hostId) {
+			this.status = status;
+			
+      this.initialDate = initialDate;
+			this.finalDate = finalDate;
+			
+      this.value = value;
+			this.petId = petId;
+      this.homeId = homeId;
+			this.ownerId = ownerId;
+			this.hostId = hostId;
     }
+		
+		setAttributesFromJson(json) {
+			this._id = json._id;
+			this.status = parseInt(json.status);
+      
+			this.initialDate = json.initialDate;
+			this.finalDate = json.finalDate;
+			
+      this.value = parseInt(json.value);
+			this.petId = json.petId;
+      this.homeId = json.homeId;
+			this.ownerId = json.ownerId;
+			this.hostId = json.hostId;
+		}
+		
+		message(mode) {
+			if (mode == OWNER) {
+				switch (this.status) {
+					case WAITING_HOST_ANSWER:
+						return "Aguardando resposta do host.";
+						break;
+					case HOST_DECLINED:
+						return "O host rejeitou sua proposta.";
+						break;
+					case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
+						return "O host está aguardando seu pet.";
+						break;
+					case PET_IN_HOSTAGE:
+						return "Pet está hospedado.";
+						break;
+					case OWNER_WAITING_FOR_PET_DEVOLUTION:
+						return "Busque seu pet na residência da hospedagem.";
+						break;
+					case COMPLETED:
+						return "Transação concluída";
+						break;
+					default:
+						return "";
+				}
+			} else {
+				switch (this.status) {
+					case WAITING_HOST_ANSWER:
+						return "O owner está aguardando sua resposta.";
+						break;
+					case HOST_DECLINED:
+						return "Você rejeitou a proposta.";
+						break;
+					case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
+						return "Aguardando o owner lhe entregar o pet. Já entregou?";
+						break;
+					case PET_IN_HOSTAGE:
+						return "Pet está hospedado.";
+						break;
+					case OWNER_WAITING_FOR_PET_DEVOLUTION:
+						return "Devolva o pet para o dono.";
+						break;
+					case COMPLETED:
+						return "Transação concluída";
+						break;
+					default:
+						return "";
+				}
+			}
+		}
+		
+		actions(mode) {
+			if (mode == OWNER) {
+				switch (this.status) {
+					case OWNER_WAITING_FOR_PET_DEVOLUTION:
+						return '<br><button id="5">Confirmar recebimento do pet</button>';
+						break;
+					case PET_IN_HOSTAGE:
+						return '<br><button id="4">Encerrar hospedagem</button>';
+						break;
+					default:
+						return '';
+				}
+			} else {
+				switch (this.status) {
+					case WAITING_HOST_ANSWER:
+						return '<br><button id="2">Aceitar</button><button id="1">Rejeitar</button>';
+						break;
+					case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
+						return '<br><button id="3">Confirmar recebimento do pet</button>';
+						break;
+					default:
+						return '';
+				}
+			}
+		}
+		
+		setStatus(newStatus) {
+			this.status = newStatus;
+		}
 }
 
 class Period {
@@ -171,102 +272,14 @@ class Date {
 		}
 }
 
-// Estados de uma pendência:
-// Obs.: só quando estiver COMPLETED, vai virar uma transação e aparecer no histórico
-
-const WAITING_HOST_ANSWER = 0;
-const HOST_DECLINED = 1;
-const HOST_ACCEPTED_AND_IS_WAITING_FOR_PET = 2;
-const PET_IN_HOSTAGE = 3;
-const OWNER_WAITING_FOR_PET_DEVOLUTION = 4;
-const COMPLETED = 5;
-
-const OWNER = 0;
-const HOST = 1;
-
-class Pendency {
-	constructor(transaction, status) {
-		this.transaction = transaction;
-		this.status = status;
-	}
-	
-	message(mode) {
-		if (mode == OWNER) {
-			switch (this.status) {
-				case WAITING_HOST_ANSWER:
-					return "Aguardando resposta do host.";
-					break;
-				case HOST_DECLINED:
-					return "O host rejeitou sua proposta.";
-					break;
-				case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
-					return "O host está aguardando seu pet.";
-					break;
-				case PET_IN_HOSTAGE:
-					return "Pet está hospedado.";
-					break;
-				case OWNER_WAITING_FOR_PET_DEVOLUTION:
-					return "Busque seu pet na residência da hospedagem.";
-					break;
-				case COMPLETED:
-					return "Transação concluída";
-					break;
-				default:
-					return "";
-			}
-		} else {
-			switch (this.status) {
-				case WAITING_HOST_ANSWER:
-					return "O owner está aguardando sua resposta.";
-					break;
-				case HOST_DECLINED:
-					return "Você rejeitou a proposta.";
-					break;
-				case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
-					return "Aguardando o owner lhe entregar o pet. Já entregou?";
-					break;
-				case PET_IN_HOSTAGE:
-					return "Pet está hospedado.";
-					break;
-				case OWNER_WAITING_FOR_PET_DEVOLUTION:
-					return "Devolva o pet para o dono.";
-					break;
-				case COMPLETED:
-					return "Transação concluída";
-					break;
-				default:
-					return "";
-			}
-		}
-	}
-	
-	actions(mode) {
-		if (mode == OWNER) {
-			switch (this.status) {
-				case OWNER_WAITING_FOR_PET_DEVOLUTION:
-					return '<button id="5">Confirmar recebimento do pet</button>';
-					break;
-				default:
-					return '';
-			}
-		} else {
-			switch (this.status) {
-				case WAITING_HOST_ANSWER:
-					return '<button id="2">Aceitar</button><button id="1">Rejeitar</button>';
-					break;
-				case HOST_ACCEPTED_AND_IS_WAITING_FOR_PET:
-					return '<button id="3">Confirmar recebimento do pet</button>';
-					break;
-				default:
-					return '';
-			}
-		}
-	}
-	
-	setStatus(newStatus) {
-		this.status = newStatus;
-	}
-}
+// class Pendency {
+// 	constructor(transaction, status) {
+// 		this.transaction = transaction;
+// 		this.status = status;
+// 	}
+//
+//
+// }
 
 // var addressLukita = new Adress("Rua Carlos Reverbel", 152, "Canoas", "RS", "Brasil");
 //
@@ -325,6 +338,8 @@ class Pendency {
 // console.log(userLukita.ownerHistory[0]);
 //
 
+// REST & DB
+
 function post(path, params, method) {
     method = method || "POST"; // Set method to post by default if not specified.
 
@@ -359,8 +374,18 @@ function put(path, params, callback) {
 	});
 }
 
+function postAjax(path, params, callback) {
+    $.ajax({
+    url: path, // your api url
+    method: 'POST', // method is any HTTP method
+    data: params, // data as js object
+    success: function() {
+			callback();
+		}
+	});
+}
+
 function del(path, params, callback) {
-	console.log("is inside del");
 	$.ajax({
 		url: path, // your api url
 		method: 'DELETE', // method is any HTTP method
@@ -401,6 +426,56 @@ function getUsers(callback) {
 	xmlHttp.send(null);
 }
 
+function getUserById(id, callback) {
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			var result = JSON.parse(xmlHttp.response);
+			var hasCalledBack = false;
+			
+			for(var i = 0; i < result.length; i ++) {
+				var user = new User();
+				user.setAttributesFromJson(result[i]);
+				
+				if (user._id == id) {
+					hasCalledBack = true;
+					callback(user);
+				}
+			}
+			if (!hasCalledBack) {
+				callback(undefined);
+			}
+		}
+	}
+	xmlHttp.open("GET", "/users", true); // true for asynchronous
+	xmlHttp.send(null);
+}
+
+function getUserByName(name, callback) {
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			var result = JSON.parse(xmlHttp.response);
+			var hasCalledBack = false;
+			
+			for(var i = 0; i < result.length; i ++) {
+				var user = new User();
+				user.setAttributesFromJson(result[i]);
+				
+				if (user.name == name) {
+					hasCalledBack = true;
+					callback(user);
+				}
+			}
+			if (!hasCalledBack) {
+				callback(undefined);
+			}
+		}
+	}
+	xmlHttp.open("GET", "/users", true); // true for asynchronous
+	xmlHttp.send(null);
+}
+
 function getPets(callback) {
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
@@ -411,7 +486,6 @@ function getPets(callback) {
 			for(var i = 0; i < result.length; i ++) {
 				var pet = new Pet();
 				pet.setAttributesFromJson(result[i]);
-				console.log(pet);
 				pets.push(pet);
 			}
 			
@@ -446,21 +520,25 @@ function getPetsForUserId(id, callback) {
 }
 
 function getPetForId(id, callback) {
-	console.log(id);
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
 			var result = JSON.parse(xmlHttp.response);
-
+			var hasCalledBack = false;
+			
 			for(var i = 0; i < result.length; i ++) {
 				var pet = new Pet();
 				pet.setAttributesFromJson(result[i]);
+				
 				if(pet._id == id) {
+					hasCalledBack = true;
 					callback(pet);
 				}
 			}
+			if (!hasCalledBack) {
+				callback(undefined);
+			}
 		}
-		callback(undefined);
 	}
 	xmlHttp.open("GET", "/pets", true); // true for asynchronous
 	xmlHttp.send(null);
@@ -472,7 +550,8 @@ function getHomesForUserId(id, callback) {
 		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
 			var result = JSON.parse(xmlHttp.response);
 			var homes = [];
-			console.log(xmlHttp.response);
+			// console.log(xmlHttp.response);
+			
 			for(var i = 0; i < result.length; i ++) {
 				var home = new Home();
 				home.setAttributesFromJson(result[i]);
@@ -481,7 +560,6 @@ function getHomesForUserId(id, callback) {
 					homes.push(home);
 				}
 			}
-			
 			callback(homes);
 		}
 	}
@@ -490,22 +568,101 @@ function getHomesForUserId(id, callback) {
 }
 
 function getHomeForId(id, callback) {
-	console.log(id);
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.onreadystatechange = function() {
 		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
 			var result = JSON.parse(xmlHttp.response);
+			var hasCalledBack = false;
 
 			for(var i = 0; i < result.length; i ++) {
 				var home = new Home();
 				home.setAttributesFromJson(result[i]);
 				if(home._id == id) {
+					hasCalledBack = true;
 					callback(home);
 				}
 			}
+			if (!hasCalledBack) {
+				callback(undefined);
+			}
 		}
-		callback(undefined);
 	}
 	xmlHttp.open("GET", "/homes", true); // true for asynchronous
+	xmlHttp.send(null);
+}
+
+function getUsersWithAvailableHomesInCity(city, callback) {
+	found = [];
+	
+	getUsers(function (users) {
+		users.forEach(function (user, i) {
+			getHomesForUserId(user._id, function (homes) {
+				if (user.isHostUser && homes.length > 0) {
+					homes.forEach(function (home, j) {
+						if (home.isAvailable() && home.city == city) {
+							found.push(user);
+						}
+						if (j == (homes.length - 1) && i == (users.length - 1)) {
+							callback(found);
+						}
+					});
+				} else {
+					if (i == (users.length - 1)) {
+						callback(found);
+					}
+				}
+			});
+		});
+	});
+}
+
+function getTransactionsForUserId(id, mode, completed, callback) {
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		var transactions = [];
+		
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			var result = JSON.parse(xmlHttp.response);
+			
+			for(var i = 0; i < result.length; i ++) {
+				var transaction = new Transaction();
+				transaction.setAttributesFromJson(result[i]);
+				
+				if (completed == (transaction.status == COMPLETED)) {
+					if (mode == OWNER) {
+						if (transaction.ownerId == id) {
+							transactions.push(transaction);
+						}
+					} else {
+						if (transaction.hostId == id) {
+							transactions.push(transaction);
+						}
+					}
+				}
+			}
+			callback(transactions);
+		}
+	}
+	xmlHttp.open("GET", "/transactions", true); // true for asynchronous
+	xmlHttp.send(null);
+}
+
+function getTransactions(callback) {
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.onreadystatechange = function() {
+		var transactions = [];
+		
+		if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+			var result = JSON.parse(xmlHttp.response);
+			
+			for(var i = 0; i < result.length; i ++) {
+				var transaction = new Transaction();
+				transaction.setAttributesFromJson(result[i]);
+				transactions.push(transaction);
+			}
+			callback(transactions);
+		}
+	}
+	xmlHttp.open("GET", "/transactions", true); // true for asynchronous
 	xmlHttp.send(null);
 }

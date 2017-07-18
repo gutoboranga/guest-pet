@@ -26,7 +26,7 @@ NotificationsView.prototype = {
     list.append($('<li>meuzumbago</li>'));
     list.append($('<li>meus testículos</li>'));
     
-    console.log(list);
+    // console.log(list);
   }
 };
 

@@ -97,9 +97,10 @@ CreateHomeController.prototype = {
           // var adress = new Adress(street, number, city, state, country);
           var home = new Home(name, street, number, city, state, country, "photos", capacity, value, description, this.user._id);
           
-          post('/home', home, 'POST');
-          
-          // window.location.replace("../templates/home.html");
+          // post('/home', home, 'POST');
+          postAjax('/home', home, function () {
+            window.location.replace("../templates/home.html");
+          });
     }
 	},
 

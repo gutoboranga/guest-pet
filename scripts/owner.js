@@ -83,7 +83,7 @@ function OwnerController(user, view) {
 
 OwnerController.prototype = {
   printSomething: function () {
-    console.log("something");
+    // console.log("something");
   },
   
   render: function (element) {

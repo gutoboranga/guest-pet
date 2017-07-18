@@ -90,9 +90,12 @@ CreatePetController.prototype = {
     
     } else {
       var pet = new Pet(name, species, size, nature, "photo", "01/01/01", this.user._id);
-      console.log(pet);
+      // console.log(pet);
       
-      post('/pet', pet, 'POST');
+      // post('/pet', pet, 'POST');
+      postAjax('/pet', pet, function () {
+        window.location.replace("../templates/home.html");
+      });
       
       // window.location.replace("../templates/home.html");
     }

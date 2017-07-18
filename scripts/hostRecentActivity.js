@@ -34,9 +34,18 @@ function HostRecentActivityView(elements, pendencies) {
         if(!target) { return; }
     }
     if (target.tagName === 'LI'){
-        index = target.id;
-        _this.userPendencies[index].setStatus(parseInt(newStatus)); // acho que vai ter que acessar bd pra atualizar estado no user host também
-        _this.show();
+      index = target.id;
+        
+      var req_body = {
+        'transactionId' : _this.userPendencies[index]._id,
+        'newStatus' : newStatus
+      };
+      
+      put('/transactionNewStatus', req_body, function () {
+        getTransactions(function (result) {
+          location.reload();
+        });
+      });
     }
   });
 }
@@ -51,20 +60,25 @@ HostRecentActivityView.prototype = {
     list.html('');
     
     if (activity.length > 0) {
-      for (var i = 0; i < activity.length; i++) {
-        var pendency = activity[i];
-        var transaction = pendency.transaction;
-        
-        var owner = "Owner: " + transaction.ownerEmail + '<br/>';
-        var pet = "Pet: " + transaction.pet.name + '<br/>';
-        var home = "Residência: " + transaction.home.name + '<br/>';
-        var period = "Período: " + transaction.period.initialDate.toStr() + " - " + transaction.period.finalDate.toStr() + '<br/>';
+      activity.forEach(function (transaction, i) {
+        var period = "Período: " + transaction.initialDate + " - " + transaction.finalDate + '<br/>';
         var value = "Valor: " + transaction.value.toString() + '<br/>';
-        var status = "<b>Status:</b> " + pendency.message(HOST);
-        var actions = pendency.actions(HOST);
+        var status = "<b>Status:</b> " + transaction.message(HOST);
+        var actions = transaction.actions(HOST);
         
-        list.append($('<li id="' + i + '"><p>' + owner + pet + home + period + value + status + actions + '</p></li>'));
-      }
+        getUserById(transaction.ownerId, function (result) {
+          var host = "Owner: " + result.name + '<br/>';
+          
+          getPetForId(transaction.petId, function (petResult) {
+            var pet = "Pet: " + petResult.name + '<br/>';
+          
+            getHomeForId(transaction.homeId, function (homeResult) {
+              var home = "Residência: " + homeResult.name + '<br/>';
+              list.append($('<li id="' + i + '"><p>' + host + pet + home + period + value + status + actions + '</p></li>'));
+            });
+          });
+        });
+      });
     } else {
       var message = 'Você não possui nenhuma transação em andamento';
       this.elements.hostRecentActivity.html('');
@@ -87,12 +101,14 @@ $(function () {
     var users = result;
     var user = findUser(users);
     
-    var view = new HostRecentActivityView({
-      'hostRecentActivityList' : $('#hostRecentActivityList'),
-      'hostRecentActivity' : $('#hostRecentActivity')
-    }, user.hostPending);
-    
-    controller = new HostRecentActivityController(user, view);
-    controller.view.show();
+    getTransactionsForUserId(user._id, HOST, false, function (result) {
+      var view = new HostRecentActivityView({
+        'hostRecentActivityList' : $('#hostRecentActivityList'),
+        'hostRecentActivity' : $('#hostRecentActivity')
+      }, result);
+      
+      controller = new HostRecentActivityController(user, view);
+      controller.view.show();
+    });
   });
 });

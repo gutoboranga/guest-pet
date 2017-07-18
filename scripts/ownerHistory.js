@@ -27,17 +27,23 @@ OwnerHistoryView.prototype = {
     list.html('');
     
     if (history.length > 0) {
-      for (var i = 0; i < history.length; i++) {
-        var transaction = history[i];
-        
-        var host = "Host: " + transaction.hostEmail + '<br/>';
-        var pet = "Pet: " + transaction.pet.name + '<br/>';
-        var home = "Residência: " + transaction.home.name + '<br/>';
-        var period = "Período: " + transaction.period.initialDate.toStr() + " - " + transaction.period.finalDate.toStr() + '<br/>';
+      history.forEach(function (transaction, i) {
+        var period = "Período: " + transaction.initialDate + " - " + transaction.finalDate + '<br/>';
         var value = "Valor: " + transaction.value.toString() + '<br/>';
         
-        list.append($('<li><p>' + host + pet + home + period + value + '</p></li>'));
-      }
+        getUserById(transaction.hostId, function (result) {
+          var host = "Host: " + result.name + '<br/>';
+          
+          getPetForId(transaction.petId, function (petResult) {
+            var pet = "Pet: " + petResult.name + '<br/>';
+          
+            getHomeForId(transaction.homeId, function (homeResult) {
+              var home = "Residência: " + homeResult.name + '<br/>';
+              list.append($('<li><p>' + host + pet + home + period + value + '</p></li>'));
+            });
+          });
+        });
+      });
     } else {
       var message = 'Você ainda não hospedou seus pets em nenhuma residência.<br>Utilize a busca acima para começar a desfrutar das vantagens de GuestPet!';
       this.elements.ownerHistory.html('');
@@ -58,12 +64,14 @@ $(function () {
     var users = result;
     var user = findUser(users);
     
-    var view = new OwnerHistoryView({
-      'ownerHistoryList' : $('#ownerHistoryList'),
-      'ownerHistory' : $('#ownerHistory')
+    getTransactionsForUserId(user._id, OWNER, true, function (result) {
+      var view = new OwnerHistoryView({
+        'ownerHistoryList' : $('#ownerHistoryList'),
+        'ownerHistory' : $('#ownerHistory')
+      });
+      
+      controller = new OwnerHistoryController(user, view);
+      controller.view.show(result);
     });
-    
-    controller = new OwnerHistoryController(user, view);
-    controller.view.show(user.ownerHistory);
   });
 });

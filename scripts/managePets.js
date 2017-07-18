@@ -47,9 +47,8 @@ function ManagePetsView(elements) {
         getPetForId(petId, function (pet) {
           if (pet != undefined) {
             del('/pet', pet, function () {
-              console.log("pet removido");
+              location.reload();
             });
-            location.reload();
           }
         });
       }
@@ -72,7 +71,7 @@ ManagePetsView.prototype = {
         var species = pets[i].species + '<br/>'
         var nature = pets[i].nature + '<br/>'
         
-        console.log();
+        // console.log();
         list.append($('<li>' + image + '<p>' + name + species + nature + '</p>' + '<button id="' + pets[i]._id +'">Excluir</button>' +  '</li>'));
       }
     } else {

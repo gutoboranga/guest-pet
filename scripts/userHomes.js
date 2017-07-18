@@ -1,9 +1,8 @@
-// model
-function findUser() {
-
+function findUser(users) {
+  
   var i = 0;
   var cookie = document.cookie;
-
+  
   while (i < users.length) {
     if (cookie == users[i].name) {
       return users[i];
@@ -21,12 +20,11 @@ function ListModel() {
  * the UI events. The controller is attached to these
  * events to handle the user interaction.
  */
-function ListView(model, elements) {
-
-
+function ListView(user, model, elements) {
     this.elements = elements;
 		this.model = model;
-		console.log(elements);
+    this.user = user;
+		
 		var _this = this;
 
     this.logoutButtonClicked = new Event(this);
@@ -49,19 +47,61 @@ function ListView(model, elements) {
           target = target.parentNode;
           if(!target) { return; }
       }
-      if (target.tagName === 'LI'){
-          console.log(_this.model.list[index]);
-          var home = _this.model.list[index];
-          var message = 'Tem certeza que deseja solicitar a residência ' + home.name + '?';
+      if (target.tagName === 'LI') {
+        var li_id = target.id;
+        
+        if (index.toString().length < 10) {
+          // quer usar casa mas ainda não disse pra qual pet
+          getPetsForUserId(_this.user._id, function (pets) {
+            if (pets.length > 0) {
+              var tag = '#choosePet' + index.toString();
+              data = '<br>Escolha um pet para ir:<br>';
+              
+              pets.forEach(function (pet, i) {
+                data += '<button id="' + pet._id + '">' + pet.name + '</button>  ';
+              });
+              
+              var buttonToHide = "#" + index.toString();
+              
+              $(buttonToHide).hide();
+              $(tag).html(data);
+              
+            } else {
+              var tag = '#choosePet' + index.toString();
+              $(tag).html('<br>Você não possui nenhum pet :(<br>');
+            }
+          });
+        // selecionou um pet
+        } else {
+          var petId = index;
           
-          if (confirm(message)) {
-            console.log("ele quer mesmo");
-            // BANCO_DE_DADOS:
-            // - criar pendência e adicionar no array pending de ambos users host and owner
-          }
+          // vai procurar o pet com aquele id
+          getPetForId(petId, function (pet) {
+            if (pet != undefined) {
+              var homeIndex = li_id.split('li')[1];
+              var home = _this.model.list[homeIndex];
+              var message = 'Tem certeza que deseja solicitar a residência ' + home.name + '?';
+              
+              if (confirm(message)) {
+                
+                var transaction = new Transaction(WAITING_HOST_ANSWER,
+                                              "aa/mm/yyyy",
+                                              "aa/mm/yyyy",
+                                              home.value,
+                                              pet._id,
+                                              home._id,
+                                              _this.user._id,
+                                              home.userId);
+                
+                postAjax('/transaction', transaction, function() {
+                  location.replace("../templates/home.html");
+                });
+              }
+            }
+          });
+        }
       }
     });
-
 }
 
 ListView.prototype = {
@@ -83,11 +123,12 @@ ListView.prototype = {
         if (found.length > 0) {
       		for (var i = 0; i < found.length; i++) {
       			var image = '<img src="../images/guestPetLogo.png" class="profilePicture">';
-      			var info = '<p>' + found[i].name + '<br/>' + found[i].adress.city + '<br/>'
+      			var info = '<p>' + found[i].name + '<br/>' + found[i].city + '<br/>'
              + found[i].currentOccupation + '/' + found[i].capacity + '<br/>'
-             + found[i].description + '<br/>' + 'R$' + found[i].value + '/dia </p>';
-            var button = '<button id="' + i + '">Solicitar residência</button>';
-      			list.append($('<li>' + image + info + button + '</li>'));
+             + found[i].description + '<br/>' + 'R$' + found[i].value + '/dia';
+            var slotToChoosePet = '<div id="' + 'choosePet' + i + '"></div>';
+            var button = '<br><br><button id="' + i + '">Solicitar residência</button>';
+      			list.append($('<li id="li' + i + '">' + image + info + slotToChoosePet + button + '</p></li>'));
           }
         }
 
@@ -101,38 +142,39 @@ ListView.prototype = {
  * The Controller. Controller responds to user actions and
  * invokes changes on the model.
  */
-function ListController(user, view) {
-
+function ListController(user, hostUser, view) {
     var _this = this;
 
     this.user = user;
+    this.hostUser = hostUser;
     this.view = view;
 		this.list = [];
 
-    this.view.setUser(user);
-
+    this.view.setUser(hostUser);
 }
 
 ListController.prototype = {
 
 		search: function () {
-
-    var found = [];
-
-    for (var i = 0; i < this.user.homes.length; i++) {
-      if (this.user.homes[i].currentOccupation < this.user.homes[i].capacity) { // se tem espaço na casa
-        found.push(this.user.homes[i]);
-      }
-		}
-
-		this.view.model.list = found;
-		this.view.rebuildList();
-	},
+      var found = [];
+      var _this = this;
+      
+      getHomesForUserId(this.hostUser._id, function (homes) {
+        homes.forEach(function (home, i) {
+          if (home.isAvailable()) {
+            found.push(home);
+          }
+          if (i == (homes.length - 1)) {
+            _this.view.model.list = found;
+        		_this.view.show();
+          }
+        });
+      });
+    },
 
     updateSelected : function (index) {
         this._model.setSelectedIndex(index);
     }
-
 };
 
 function userByName(username) {
@@ -145,18 +187,30 @@ function userByName(username) {
 }
 
 $(function () {
-
-       var url = document.location;
-	     var userName = url.toString().split("=")[1];
-       console.log(userName);
-       var user = userByName(userName);
-
-				model = new ListModel();
-        view = new ListView(model, {
-            'usersHome' : $('#title'),
-            'list' : $('#list')
-        });
-        controller = new ListController(user, view);
-		controller.search();
-    view.show();
+  getUsers(function (users) {
+    var user = findUser(users);
+    
+    if(user != undefined) {
+      var url = document.location;
+      var userName = url.toString().split("=")[1];
+      
+      getUserByName(userName, function (hostUser) {
+        if (hostUser != undefined) {
+          var model = new ListModel();
+          var view = new ListView(user, model, {
+              'usersHome' : $('#title'),
+              'list' : $('#list')
+          });
+          
+          var controller = new ListController(user, hostUser, view);
+          
+          controller.search();
+        } else {
+          console.log("hostUser undefined @ userHomes.js");
+        }
+      });
+    } else {
+      console.log("user undefined @ userHomes.js");
+    }
+  });
 });

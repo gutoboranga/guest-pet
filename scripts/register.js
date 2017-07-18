@@ -164,7 +164,10 @@ RegisterController.prototype = {
         isFiscalUser
       );
       
-      post('/user', user, 'POST');
+      // post('/user', user, 'POST');
+      postAjax('/user', user, function () {
+        window.location.replace("../templates/home.html");
+      });
       
       // window.location.replace("../templates/home.html");
     }

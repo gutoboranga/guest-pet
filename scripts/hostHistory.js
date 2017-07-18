@@ -27,17 +27,23 @@ HostHistoryView.prototype = {
     list.html('');
     
     if (history.length > 0) {
-      for (var i = 0; i < history.length; i++) {
-        var transaction = history[i];
-        
-        var owner = "Owner: " + transaction.ownerEmail + '<br/>';
-        var pet = "Pet: " + transaction.pet.name + '<br/>';
-        var home = "Residência: " + transaction.home.name + '<br/>';
-        var period = "Período: " + transaction.period.initialDate.toStr() + " - " + transaction.period.finalDate.toStr() + '<br/>';
+      history.forEach(function (transaction, i) {
+        var period = "Período: " + transaction.initialDate + " - " + transaction.finalDate + '<br/>';
         var value = "Valor: " + transaction.value.toString() + '<br/>';
         
-        list.append($('<li><p>' + owner + pet + home + period + value + '</p></li>'));
-      }
+        getUserById(transaction.ownerId, function (result) {
+          var owner = "Owner: " + result.name + '<br/>';
+          
+          getPetForId(transaction.petId, function (petResult) {
+            var pet = "Pet: " + petResult.name + '<br/>';
+          
+            getHomeForId(transaction.homeId, function (homeResult) {
+              var home = "Residência: " + homeResult.name + '<br/>';
+              list.append($('<li><p>' + owner + pet + home + period + value + '</p></li>'));
+            });
+          });
+        });
+      });
     } else {
       var message = 'Você ainda não hospedou nenhum animal.<br>Cheque suas notificações pra ver se há requisições para suas residências!';
       this.elements.hostHistory.html('');
@@ -58,12 +64,14 @@ $(function () {
     var users = result;
     var user = findUser(users);
     
-    var view = new HostHistoryView({
-      'hostHistoryList' : $('#hostHistoryList'),
-      'hostHistory' : $('#hostHistory')
+    getTransactionsForUserId(user._id, HOST, true, function (result) {
+      var view = new HostHistoryView ({
+        'hostHistoryList' : $('#hostHistoryList'),
+        'hostHistory' : $('#hostHistory')
+      });
+      
+      controller = new HostHistoryController(user, view);
+      controller.view.show(result);
     });
-    
-    controller = new HostHistoryController(user, view);
-    controller.view.show(user.hostHistory);
   });
 });

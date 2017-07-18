@@ -15,10 +15,6 @@ function OwnerRecentActivityView(elements, pendencies) {
   this.elements = elements;
   this.userPendencies = pendencies;
   
-  // console.log("init");
-  // console.log(pendencies);
-  // console.log(this.userPendencies);
-  
   var _this = this;
   
   var ul = document.getElementById('ownerRecentActivityList');
@@ -38,9 +34,20 @@ function OwnerRecentActivityView(elements, pendencies) {
         if(!target) { return; }
     }
     if (target.tagName === 'LI'){
-        index = target.id;
-        _this.userPendencies[index].setStatus(parseInt(newStatus)); // acho que vai ter que acessar bd pra atualizar estado no user host também
-        _this.show();
+      index = target.id;
+        
+      var req_body = {
+        'transactionId' : _this.userPendencies[index]._id,
+        'newStatus' : newStatus
+      };
+      
+      put('/transactionNewStatus', req_body, function () {
+        // console.log("tentou meter no banco, vamos ver");
+        getTransactions(function (result) {
+          // console.log(result);
+          location.reload();
+        });
+      });
     }
   });
 }
@@ -51,24 +58,33 @@ OwnerRecentActivityView.prototype = {
   },
   
   rebuildList : function (activity) {
+    
     var list = this.elements.ownerRecentActivityList;
     list.html('');
     
     if (activity.length > 0) {
-      for (var i = 0; i < activity.length; i++) {
-        var pendency = activity[i];
-        var transaction = pendency.transaction;
+      activity.forEach(function (transaction, i) {
+        var transaction = activity[i];
         
-        var host = "Host: " + transaction.hostEmail + '<br/>';
-        var pet = "Pet: " + transaction.pet.name + '<br/>';
-        var home = "Residência: " + transaction.home.name + '<br/>';
-        var period = "Período: " + transaction.period.initialDate.toStr() + " - " + transaction.period.finalDate.toStr() + '<br/>';
+        var period = "Período: " + transaction.initialDate + " - " + transaction.finalDate + '<br/>';
         var value = "Valor: " + transaction.value.toString() + '<br/>';
-        var status = "<b>Status:</b> " + pendency.message(OWNER);
-        var actions = pendency.actions(OWNER);
+        var status = "<b>Status:</b> " + transaction.message(OWNER);
+        var actions = transaction.actions(OWNER);
         
-        list.append($('<li id="' + i + '"><p>' + host + pet + home + period + value + status + actions + '</p></li>'));
-      }
+        getUserById(transaction.hostId, function (result) {
+          var host = "Host: " + result.name + '<br/>';
+          
+          getPetForId(transaction.petId, function (petResult) {
+            var pet = "Pet: " + petResult.name + '<br/>';
+          
+            getHomeForId(transaction.homeId, function (homeResult) {
+              var home = "Residência: " + homeResult.name + '<br/>';
+          
+              list.append($('<li id="' + i + '"><p>' + host + pet + home + period + value + status + actions + '</p></li>'));
+            });
+          });
+        });
+      });
     } else {
       var message = 'Você não possui nenhuma transação em andamento';
       this.elements.ownerRecentActivity.html('');
@@ -91,12 +107,15 @@ $(function () {
     var users = result;
     var user = findUser(users);
     
-    var view = new OwnerRecentActivityView({
-      'ownerRecentActivityList' : $('#ownerRecentActivityList'),
-      'ownerRecentActivity' : $('#ownerRecentActivity')
-    }, user.ownerPending);
-    
-    controller = new OwnerRecentActivityController(user, view);
-    controller.view.show();
+    getTransactionsForUserId(user._id, OWNER, false, function (result) {
+      // console.log(result);
+      var view = new OwnerRecentActivityView({
+        'ownerRecentActivityList' : $('#ownerRecentActivityList'),
+        'ownerRecentActivity' : $('#ownerRecentActivity')
+      }, result);
+      
+      controller = new OwnerRecentActivityController(user, view);
+      controller.view.show();
+    });
   });
 });
