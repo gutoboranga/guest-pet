@@ -73,7 +73,7 @@ app.get('/transactions', (req, res) => {
 app.post('/user', (req, res) => {
   db.collection('users').save(req.body, (err, result) => {
     if (err) return console.log(err)
-    res.redirect('/');
+    res.send(result);
   });
 });
 
@@ -88,7 +88,7 @@ app.post('/home', (req, res) => {
   console.log(req.body);
   db.collection('homes').save(req.body, (err, result) => {
     if (err) return console.log(err)
-    res.redirect('/');
+    res.send(result);
   });
 });
 
